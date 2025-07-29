@@ -1,4 +1,4 @@
-#include "ReiseManager/Core/Logger.h"
+#include <ReiseManager/Core/Logger.hpp>
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -10,9 +10,10 @@
 
 using namespace ReiseManager::Core;
 
-static std::filesystem::path GetLogPath() {
+static std::filesystem::path GetLogPath()
+{
 #ifdef _WIN32
-    wchar_t* appdata = nullptr;
+    wchar_t *appdata = nullptr;
     size_t len = 0;
     _wdupenv_s(&appdata, &len, L"LOCALAPPDATA");
     std::filesystem::path p = appdata ? appdata : L".";
@@ -24,7 +25,8 @@ static std::filesystem::path GetLogPath() {
 #endif
 }
 
-void Log(const std::string& level, const std::string& message) {
+void Log(const std::string &level, const std::string &message)
+{
     auto tp = std::chrono::system_clock::now();
     std::time_t tt = std::chrono::system_clock::to_time_t(tp);
     std::tm tm;
