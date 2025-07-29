@@ -1,0 +1,7 @@
+# Doxyfile configuration for ReiseManager
+
+PROJECT_NAME           = "ReiseManager"
+OUTPUT_DIRECTORY       = doc
+INPUT                  = include
+RECURSIVE              = YES
+GENERATE_LATEX         = NO
