@@ -1,0 +1,130 @@
+{
+  "version": 8,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "ninja-multi",
+      "displayName": "Ninja Multi",
+      "hidden": true,
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build",
+      "installDir": "${sourceDir}/install"
+    },
+    {
+      "name": "windows-ninja",
+      "displayName": "Windows Ninja",
+      "description": "Build for Windows using Ninja",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "inherits": "ninja-multi",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "toolset": {
+        "value": "v143,host=x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
+        "CMAKE_CXX_STANDARD": "17"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": ["Windows"]
+        }
+      }
+    },
+    {
+      "name": "windows-vs",
+      "displayName": "Windows Visual Studio",
+      "description": "Build using Visual Studio 17 2022",
+      "generator": "Visual Studio 17 2022",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "toolset": {
+        "value": "v143,host=x64",
+        "strategy": "external"
+      },
+      "binaryDir": "${sourceDir}/build",
+      "installDir": "${sourceDir}/install",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
+        "CMAKE_CXX_STANDARD": "17"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": ["Windows"]
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-ninja-debug",
+      "displayName": "Debug",
+      "configuration": "Debug",
+      "configurePreset": "windows-ninja"
+    },
+    {
+      "name": "windows-ninja-release",
+      "displayName": "Release",
+      "configuration": "Release",
+      "configurePreset": "windows-ninja"
+    },
+    {
+      "name": "windows-vs-debug",
+      "displayName": "Debug",
+      "configuration": "Debug",
+      "configurePreset": "windows-vs"
+    },
+    {
+      "name": "windows-vs-release",
+      "displayName": "Release",
+      "configuration": "Release",
+      "configurePreset": "windows-vs"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-ninja-debug",
+      "displayName": "All Debug",
+      "configurePreset": "windows-ninja",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-ninja-release",
+      "displayName": "All Release",
+      "configurePreset": "windows-ninja",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-vs-debug",
+      "displayName": "All Debug",
+      "configurePreset": "windows-vs",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-vs-release",
+      "displayName": "All Release",
+      "configurePreset": "windows-vs",
+      "configuration": "Release"
+    }
+  ]
+}
