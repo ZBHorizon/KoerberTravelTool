@@ -2,6 +2,7 @@
 
 add_library(ReiseManagerCore
     Trip.cpp
+    Logger.cpp
 )
 target_include_directories(ReiseManagerCore
     PUBLIC ${PROJECT_SOURCE_DIR}/include

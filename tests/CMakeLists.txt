@@ -1,6 +1,11 @@
 # tests/CMakeLists.txt
 
-find_package(GTest REQUIRED)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+)
+FetchContent_MakeAvailable(googletest)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_executable(TripTests
