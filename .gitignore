@@ -1,0 +1,24 @@
+# Build directories
+build/
+bin/
+install/
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Visual Studio files
+*.sln
+*.vcxproj*
+*.user
+
+# VS Code settings
+.vscode/
+
+# Logs
+*.log
+
+# Generated resources
+resources/Reise.ico
