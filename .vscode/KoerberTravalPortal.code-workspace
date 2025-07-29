@@ -1,0 +1,83 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    }
+  ],
+  "settings": {
+    // ----- C_Cpp --------------------------------------------------------------------------------
+    "C_Cpp.autoAddFileAssociations": false,
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    //
+    // ----- CMake --------------------------------------------------------------------------------
+    "cmake.buildBeforeRun": true,
+    "cmake.configureOnEdit": false,
+    "cmake.ignoreCMakeListsMissing": true,
+    "cmake.saveBeforeBuild": true,
+    "cmake.useCMakePresets": "always",
+    //
+    // ----- Editor -------------------------------------------------------------------------------
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.useTabStops": false,
+    //
+    // ----- Files --------------------------------------------------------------------------------
+    "files.associations": {
+      "*.cmake": "cmake",
+      "CMakeConfig.txt": "cmake",
+      "CMakeCross*.txt": "cmake",
+      "CMakeFiles*.txt": "cmake",
+      "CMakeLists.txt": "cmake",
+      "*.bat": "bat",
+      "*.h": "c",
+      "*.c": "c",
+      "*.hpp": "cpp",
+      "*.ipp": "cpp",
+      "*.cpp": "cpp",
+      "*.java": "java",
+      "*.json": "json",
+      "*.code-workspace": "json"
+    },
+    "files.encoding": "iso885915",
+    "files.eol": "\n",
+    "files.exclude": {
+      "**/.DS_Store": true,
+      "**/.git": true,
+      "**/.vs": true
+    },
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.clang_format_style": "file",
+    //
+    // ----- Git ----------------------------------------------------------------------------------
+    //
+    // ----- Workbench ----------------------------------------------------------------------------
+    //
+    // clang-tidy Konfiguration hinzufügen
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "C_Cpp.codeAnalysis.clangTidy.config": "${workspaceFolder}/.clang-tidy",
+    "C_Cpp.codeAnalysis.runAutomatically": true,
+    "cmake.options.statusBarVisibility": "hidden",
+    "cmake.options.advanced": {
+      "folder": { "statusBarVisibility": "hidden" },
+      "configure": { "projectStatusVisibility": "visible" },
+      "configurePreset": { "statusBarVisibility": "icon" },
+      "kit": { "statusBarVisibility": "hidden" },
+      "variant": { "statusBarVisibility": "hidden" },
+      "build": {
+        "statusBarVisibility": "inherit",
+        "inheritDefault": "visible",
+        "projectStatusVisibility": "visible"
+      },
+      "buildPreset": { "statusBarVisibility": "visible" },
+      "buildTarget": { "statusBarVisibility": "visible" },
+      "ctest": { "statusBarVisibility": "hidden" },
+      "testPreset": { "statusBarVisibility": "hidden" },
+      "launchTarget": { "statusBarVisibility": "hidden" },
+      "debug": { "statusBarVisibility": "visible" },
+      "launch": { "statusBarVisibility": "visible" },
+      "workflow": { "statusBarVisibility": "hidden" },
+      "workflowPreset": { "statusBarVisibility": "hidden" },
+      "packagePreset": { "statusBarVisibility": "hidden" }
+    }
+  }
+}
