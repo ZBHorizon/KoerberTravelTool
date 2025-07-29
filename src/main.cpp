@@ -5,6 +5,8 @@
 #include <filesystem>
 #include "ReiseManager/UI/TripDialog.h"
 #include "ReiseManager/Core/Trip.h"
+#include "ReiseManager/Core/Logger.h"
+#include <shlwapi.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
     int argc;
@@ -33,8 +35,44 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
     ReiseManager::UI::TripDialog dialog(newMode, targetPath);
     int result = dialog.Show(hInstance, nullptr);
     if (result == IDOK) {
-        // TODO: Retrieve Trip and perform create/edit operations
         auto trip = dialog.GetTrip();
+        wchar_t rootBuf[512];
+        DWORD len = sizeof(rootBuf);
+        if (ERROR_SUCCESS != RegGetValueW(HKEY_CURRENT_USER, L"Software\\ReiseManager", L"RootReisenPath", RRF_RT_REG_SZ, nullptr, rootBuf, &len)) {
+            ExpandEnvironmentStringsW(L"%USERPROFILE%\\OneDrive - K\xF6rber AG\\Reisen", rootBuf, 512);
+        }
+        std::filesystem::path rootPath(rootBuf);
+        auto folderName = trip.ComputeFolderName();
+
+        if (newMode) {
+            ReiseManager::Core::Log("INFO", "Creating trip " + folderName);
+            auto tripFolder = rootPath / folderName;
+            std::filesystem::create_directory(tripFolder);
+            SetFileAttributesW(tripFolder.wstring().c_str(), FILE_ATTRIBUTE_HIDDEN);
+            ReiseManager::Core::Log("INFO", "Created folder " + tripFolder.string());
+            auto linkPath = rootPath / (folderName + L".lnk");
+            trip.ApplyToShortcut(linkPath);
+            ReiseManager::Core::Log("INFO", "Wrote shortcut " + linkPath.string());
+        } else {
+            std::filesystem::path old = targetPath;
+            if (old.extension() == L".lnk") {
+                old = old.parent_path() / old.stem();
+            }
+            auto oldLink = old;
+            oldLink.replace_extension(L".lnk");
+            std::filesystem::path newFolder = rootPath / folderName;
+            if (!std::filesystem::equivalent(old, newFolder)) {
+                std::filesystem::rename(old, newFolder);
+                ReiseManager::Core::Log("INFO", "Renamed folder to " + newFolder.string());
+            }
+            auto newLink = rootPath / (folderName + L".lnk");
+            if (oldLink != newLink && std::filesystem::exists(oldLink)) {
+                std::filesystem::rename(oldLink, newLink);
+                ReiseManager::Core::Log("INFO", "Renamed shortcut to " + newLink.string());
+            }
+            trip.ApplyToShortcut(newLink);
+            ReiseManager::Core::Log("INFO", "Updated metadata");
+        }
     }
     return 0;
 }
