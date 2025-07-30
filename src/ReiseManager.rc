@@ -1,2 +1,2 @@
 #include <windows.h>
-// IDI_APP ICON "../resources/Reise.ico"
+IDI_APP ICON "../resources/Reise.ico"

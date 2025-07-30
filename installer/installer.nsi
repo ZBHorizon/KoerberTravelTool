@@ -5,6 +5,8 @@
 !define ROOT_DIR_REGVALUE "RootReisenPath"
 
 Outfile "${APP_NAME}Setup.exe"
+Icon "..\\resources\\Reise.ico"
+UninstallIcon "..\\resources\\Reise.ico"
 InstallDir $LOCALAPPDATA\\${APP_NAME}
 RequestExecutionLevel user
 
@@ -19,6 +21,8 @@ Function SelectRootFolder
     Pop $ReisenRoot
     StrCmp $ReisenRoot "" 0 +2
         StrCpy $ReisenRoot "$PROFILE\\OneDrive - Körber AG\\Reisen"
+    ; Dialog immediat nach Auswahl schließen
+    Abort
 FunctionEnd
 
 Section "Install"
