@@ -7,7 +7,7 @@ if(WIN32)
 
     add_library(ReiseResources OBJECT ReiseManager.rc)
 
-    add_executable(ReiseManager main.cpp $<TARGET_OBJECTS:ReiseResources>)
+    add_executable(ReiseManager WIN32 main.cpp $<TARGET_OBJECTS:ReiseResources>)
     target_link_libraries(ReiseManager PRIVATE ReiseManager::Core ReiseManager::UI)
 
     install(TARGETS ReiseManager RUNTIME DESTINATION bin)
