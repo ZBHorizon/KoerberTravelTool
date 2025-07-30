@@ -24,12 +24,14 @@ cpack --preset windows-ninja-package
 ```
 The resulting `ReiseManagerSetup.exe` is placed in the `build` directory and
 contains all files from the install tree without any component selection.
-The installer allows selecting both the installation directory and the target
-`Reisen` root folder. It registers Explorer context menus and configures the
-Reisen folder view to show columns for Name, Titel, Firma, Kategorien, Ort,
-Dauer, Startdatum, Enddatum and Erstelldatum so you can create or edit trips
-directly from File Explorer. During installation an **Uninstall.exe** is
-generated in the chosen directory and also registered with "Apps & Features" so
+The installer first asks whether to install for the current user or for all
+users (the latter requires administrator privileges). Afterwards you can choose
+the installation directory and, near the end, select the target `Reisen` root
+folder. It registers Explorer context menus and configures the Reisen folder
+view to show columns for Name, Titel, Firma, Kategorien, Ort, Dauer,
+Startdatum, Enddatum and Erstelldatum so you can create or edit trips directly
+from File Explorer. During installation an **Uninstall.exe** is generated in the
+chosen directory and also registered with "Apps & Features" so
 the application can be removed easily.
 
 ## Usage

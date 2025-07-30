@@ -1,8 +1,25 @@
+set(CPACK_NSIS_EXECUTIONLEVEL "user")
 set(CPACK_NSIS_DEFINES [[
+Var InstallScope
 Var ReisenRoot
+Page custom SelectInstallScope
+Page directory
 Page custom SelectRootFolder
+
+Function SelectInstallScope
+    MessageBox MB_ICONQUESTION|MB_YESNO "ReiseManager für alle Benutzer installieren?\nDiese Option benötigt Administratorrechte." IDYES InstallAll
+    StrCpy $InstallScope "current"
+    StrCpy $INSTDIR "$LOCALAPPDATA\ReiseManager"
+    Abort
+InstallAll:
+    StrCpy $InstallScope "all"
+    StrCpy $INSTDIR "$PROGRAMFILES64\ReiseManager"
+    Abort
+FunctionEnd
+
 Function SelectRootFolder
-    nsDialogs::SelectFolderDialog "Wählen Sie den Reisen-Ordner" "$PROFILE"
+    MessageBox MB_OK "Wählen Sie nun den Reisen-Ordner, in dem Ihre Reisen gespeichert werden."
+    nsDialogs::SelectFolderDialog "Reisen-Ordner wählen" "$PROFILE"
     Pop $ReisenRoot
     StrCmp $ReisenRoot "" 0 +2
         StrCpy $ReisenRoot "$PROFILE\OneDrive - Körber AG\Reisen"
