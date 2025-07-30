@@ -11,7 +11,8 @@ ReiseManager is a Windows desktop application for creating and managing travel (
 ## Build
 ```powershell
 mkdir build; cd build
-cmake .. -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX="C:/Program Files/ReiseManager"
+# Installation im Benutzerprofil ohne Admin-Rechte
+cmake .. -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX="%LOCALAPPDATA%/ReiseManager"
 cmake --build . --config Release
 cmake --install . --config Release
 ```
