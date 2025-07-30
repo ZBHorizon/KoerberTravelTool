@@ -2,7 +2,7 @@
   "version": 8,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 25,
+    "minor": 27,
     "patch": 0
   },
   "configurePresets": [
@@ -39,7 +39,9 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": ["Windows"]
+          "hostOS": [
+            "Windows"
+          ]
         }
       }
     },
@@ -70,7 +72,9 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": ["Windows"]
+          "hostOS": [
+            "Windows"
+          ]
         }
       }
     }
@@ -125,6 +129,14 @@
       "displayName": "All Release",
       "configurePreset": "windows-vs",
       "configuration": "Release"
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "windows-ninja-package",
+      "displayName": "Package",
+      "configurePreset": "windows-ninja",
+      "description": "Erstellt win64.exe im Release-Modus"
     }
   ]
 }
