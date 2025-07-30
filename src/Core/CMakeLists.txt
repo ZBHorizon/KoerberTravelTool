@@ -12,4 +12,8 @@ target_include_directories(ReiseManagerCore PUBLIC
 
 target_compile_features(ReiseManagerCore PUBLIC cxx_std_17)
 
+if(WIN32)
+    target_link_libraries(ReiseManagerCore PUBLIC propsys)
+endif()
+
 add_library(ReiseManager::Core ALIAS ReiseManagerCore)

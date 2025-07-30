@@ -8,7 +8,7 @@
 #include <windows.h>
 #endif
 
-using namespace ReiseManager::Core;
+namespace ReiseManager::Core {
 
 static std::filesystem::path GetLogPath()
 {
@@ -40,3 +40,5 @@ void Log(const std::string &level, const std::string &message)
     std::ofstream out(GetLogPath(), std::ios::app);
     out << oss.str() << " [" << level << "] " << message << std::endl;
 }
+
+} // namespace ReiseManager::Core

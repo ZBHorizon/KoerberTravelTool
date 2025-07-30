@@ -14,4 +14,8 @@ target_compile_features(ReiseManagerUI PUBLIC cxx_std_17)
 
 target_link_libraries(ReiseManagerUI PRIVATE ReiseManager::Core)
 
+if(WIN32)
+    target_link_libraries(ReiseManagerUI PUBLIC comctl32)
+endif()
+
 add_library(ReiseManager::UI ALIAS ReiseManagerUI)
