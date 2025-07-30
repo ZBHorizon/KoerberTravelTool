@@ -31,6 +31,11 @@ static void UnixTimeToFileTime(std::time_t t, FILETIME *ft)
 }
 #endif
 
+Trip::Trip()
+    : start_(std::chrono::system_clock::now()), end_(start_)
+{
+}
+
 Trip::Trip(const SDNumber &sdnum, const std::string &title, const std::string &machine,
            const std::string &company, const std::string &location,
            const std::chrono::system_clock::time_point &start,
@@ -167,7 +172,7 @@ void Trip::ApplyToShortcut(const std::filesystem::path &shortcutPath) const
         wchar_t dur[32];
         swprintf(dur, 32, L"%d Tage", GetDuration());
         InitPropVariantFromString(dur, &pv);
-        store->SetValue(PKEY_Duration, pv);
+        store->SetValue(PKEY_Calendar_Duration, pv);
         PropVariantClear(&pv);
         store->Commit();
         store->Release();
