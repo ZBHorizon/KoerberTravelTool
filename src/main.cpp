@@ -59,7 +59,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
             std::filesystem::create_directory(tripFolder);
             SetFileAttributesW(tripFolder.wstring().c_str(), FILE_ATTRIBUTE_HIDDEN);
             ReiseManager::Core::Log("INFO", "Created folder " + tripFolder.string());
-            auto linkPath = rootPath / (folderName + L".lnk");
+            std::filesystem::path linkPath = rootPath / folderName;
+            linkPath.replace_extension(L".lnk");
             trip.ApplyToShortcut(linkPath);
             ReiseManager::Core::Log("INFO", "Wrote shortcut " + linkPath.string());
         }
@@ -78,7 +79,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
                 std::filesystem::rename(old, newFolder);
                 ReiseManager::Core::Log("INFO", "Renamed folder to " + newFolder.string());
             }
-            auto newLink = rootPath / (folderName + L".lnk");
+            std::filesystem::path newLink = rootPath / folderName;
+            newLink.replace_extension(L".lnk");
             if (oldLink != newLink && std::filesystem::exists(oldLink))
             {
                 std::filesystem::rename(oldLink, newLink);

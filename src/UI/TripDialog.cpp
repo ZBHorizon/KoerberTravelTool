@@ -49,11 +49,12 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 dlg = reinterpret_cast<TripDialog *>(cs->lpCreateParams);
                 SetWindowLongPtrW(hWnd, GWLP_USERDATA, (LONG_PTR)dlg);
                 dlg->hwnd_ = hWnd;
+                HINSTANCE hInst = cs->hInstance;
                 int y = 10;
                 auto makeLabel = [&](int id, const wchar_t *text)
-                { CreateWindowW(L"STATIC", text, WS_CHILD | WS_VISIBLE, 10, y, 80, 20, hWnd, (HMENU)id, hInstance, nullptr); };
+                { CreateWindowW(L"STATIC", text, WS_CHILD | WS_VISIBLE, 10, y, 80, 20, hWnd, (HMENU)id, hInst, nullptr); };
                 auto makeEdit = [&](int id, const wchar_t *txt)
-                {HWND h=CreateWindowExW(WS_EX_CLIENTEDGE,L"EDIT",txt,WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL,100,y,200,20,hWnd,(HMENU)id,hInstance,nullptr);y+=25;return h; };
+                {HWND h=CreateWindowExW(WS_EX_CLIENTEDGE,L"EDIT",txt,WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL,100,y,200,20,hWnd,(HMENU)id,hInst,nullptr);y+=25;return h; };
                 makeLabel(1, L"SD");
                 dlg->edSd_ = makeEdit(101, dlg->modeNew_ ? L"" : std::wstring(dlg->trip_.GetSDNumber().sd.begin(), dlg->trip_.GetSDNumber().sd.end()).c_str());
                 makeLabel(2, L"Pos");

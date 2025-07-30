@@ -16,6 +16,9 @@ public:
      */
     struct SDNumber { std::string sd; std::string position; };
 
+    /** Default construct an empty Trip. */
+    Trip();
+
     /** Construct a new Trip with all metadata. */
     Trip(const SDNumber& sdnum, const std::string& title, const std::string& machine,
          const std::string& company, const std::string& location,
