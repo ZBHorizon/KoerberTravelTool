@@ -68,7 +68,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 makeLabel(6, L"Ort");
                 dlg->edLocation_ = makeEdit(106, std::wstring(dlg->modeNew_ ? L"" : std::wstring(dlg->trip_.GetLocation().begin(), dlg->trip_.GetLocation().end())).c_str());
                 makeLabel(7, L"Start");
-                dlg->dateStart_ = CreateWindowExW(0, DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | DTS_SHORTDATEFORMAT, 100, y, 200, 20, hWnd, (HMENU)107, hInstance, nullptr);
+                dlg->dateStart_ = CreateWindowExW(0, DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | DTS_SHORTDATEFORMAT, 100, y, 200, 20, hWnd, (HMENU)107, hInst, nullptr);
                 SYSTEMTIME st{};
                 if (!dlg->modeNew_)
                 {
@@ -82,7 +82,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 DateTime_SetSystemtime(dlg->dateStart_, GDT_VALID, &st);
                 y += 25;
                 makeLabel(8, L"Ende");
-                dlg->dateEnd_ = CreateWindowExW(0, DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | DTS_SHORTDATEFORMAT, 100, y, 200, 20, hWnd, (HMENU)108, hInstance, nullptr);
+                dlg->dateEnd_ = CreateWindowExW(0, DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | DTS_SHORTDATEFORMAT, 100, y, 200, 20, hWnd, (HMENU)108, hInst, nullptr);
                 if (!dlg->modeNew_)
                 {
                     st = {};
@@ -96,7 +96,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 DateTime_SetSystemtime(dlg->dateEnd_, GDT_VALID, &st);
                 y += 25;
                 makeLabel(9, L"Dauer");
-                dlg->staticDuration_ = CreateWindowW(L"STATIC", L"", WS_CHILD | WS_VISIBLE, 100, y, 200, 20, hWnd, (HMENU)109, hInstance, nullptr);
+                dlg->staticDuration_ = CreateWindowW(L"STATIC", L"", WS_CHILD | WS_VISIBLE, 100, y, 200, 20, hWnd, (HMENU)109, hInst, nullptr);
                 auto computeDur = [&]()
                 {
                     SYSTEMTIME s1{}, s2{};
@@ -113,8 +113,8 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 };
                 computeDur();
                 y += 30;
-                CreateWindowW(L"BUTTON", L"OK", WS_CHILD | WS_VISIBLE, 100, y, 80, 25, hWnd, (HMENU)IDOK, hInstance, nullptr);
-                CreateWindowW(L"BUTTON", L"Cancel", WS_CHILD | WS_VISIBLE, 220, y, 80, 25, hWnd, (HMENU)IDCANCEL, hInstance, nullptr);
+                CreateWindowW(L"BUTTON", L"OK", WS_CHILD | WS_VISIBLE, 100, y, 80, 25, hWnd, (HMENU)IDOK, hInst, nullptr);
+                CreateWindowW(L"BUTTON", L"Cancel", WS_CHILD | WS_VISIBLE, 220, y, 80, 25, hWnd, (HMENU)IDCANCEL, hInst, nullptr);
                 return 0;
             }
             case WM_COMMAND:
