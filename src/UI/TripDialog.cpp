@@ -73,7 +73,16 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 if (!dlg->modeNew_)
                 {
                     auto tt = std::chrono::system_clock::to_time_t(dlg->trip_.GetStartDate());
-                    localtime_s(&st, &tt);
+                    std::tm tm{};
+                    localtime_s(&tm, &tt);
+                    st.wYear = static_cast<WORD>(tm.tm_year + 1900);
+                    st.wMonth = static_cast<WORD>(tm.tm_mon + 1);
+                    st.wDay = static_cast<WORD>(tm.tm_mday);
+                    st.wHour = static_cast<WORD>(tm.tm_hour);
+                    st.wMinute = static_cast<WORD>(tm.tm_min);
+                    st.wSecond = static_cast<WORD>(tm.tm_sec);
+                    st.wMilliseconds = 0;
+                    st.wDayOfWeek = static_cast<WORD>(tm.tm_wday);
                 }
                 else
                 {
@@ -87,7 +96,16 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                 {
                     st = {};
                     auto tt = std::chrono::system_clock::to_time_t(dlg->trip_.GetEndDate());
-                    localtime_s(&st, &tt);
+                    std::tm tm{};
+                    localtime_s(&tm, &tt);
+                    st.wYear = static_cast<WORD>(tm.tm_year + 1900);
+                    st.wMonth = static_cast<WORD>(tm.tm_mon + 1);
+                    st.wDay = static_cast<WORD>(tm.tm_mday);
+                    st.wHour = static_cast<WORD>(tm.tm_hour);
+                    st.wMinute = static_cast<WORD>(tm.tm_min);
+                    st.wSecond = static_cast<WORD>(tm.tm_sec);
+                    st.wMilliseconds = 0;
+                    st.wDayOfWeek = static_cast<WORD>(tm.tm_wday);
                 }
                 else
                 {
