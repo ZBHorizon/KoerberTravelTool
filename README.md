@@ -18,14 +18,12 @@ cmake --install . --config Release
 ```
 
 ## Install
-Generate the installer using NSIS after building and installing:
+After building run CPack to generate the installer:
 ```powershell
-makensis installer\installer.nsi
+cpack --preset windows-ninja-package
 ```
-Run the produced `ReiseManagerSetup.exe`:
-```powershell
-& "installer/ReiseManagerSetup.exe"
-```
+The resulting `ReiseManagerSetup.exe` is placed in the `build` directory and
+contains all files from the install tree without any component selection.
 The installer allows selecting both the installation directory and the target
 `Reisen` root folder. It registers Explorer context menus and configures the
 Reisen folder view to show columns for Name, Titel, Firma, Kategorien, Ort,
