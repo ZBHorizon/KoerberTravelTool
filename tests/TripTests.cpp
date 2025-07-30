@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "ReiseManager/Core/Trip.h"
+#include "ReiseManager/Core/Trip.hpp"
 #include <chrono>
 
 using namespace ReiseManager::Core;

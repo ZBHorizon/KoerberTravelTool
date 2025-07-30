@@ -1,24 +1,15 @@
-#----------------------------------------------------------------------------------------------------------------------------------------#
-#///////// Files ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
-#----------------------------------------------------------------------------------------------------------------------------------------#
-# set(TARGET_ASSETS_FILES "blabla.bla")
+# Source file lists for ReiseManagerUI
 
 set(TARGET_INCLUDE_FILES
-  "Placeholder.hpp")
+    "TripDialog.hpp"
+)
 
 set(TARGET_SOURCE_FILES
-  "Placeholder.cpp")
+    "TripDialog.cpp"
+)
 
+set(TARGET_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/ReiseManager/UI")
+set(TARGET_SOURCE_DIR  "${PROJECT_SOURCE_DIR}/src/UI")
 
-# Directories #
-#----------------------------------------------------------------------------------------------------------------------------------------#
-# set(TARGET_ASSETS_DIR  "${PROJECT_SOURCE_DIR}/assets")
-set(TARGET_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/SlidingGate")
-set(TARGET_SOURCE_DIR  "${PROJECT_SOURCE_DIR}/src/SlidingGate")
-
-
-# Upgrade to Absolute Paths #
-#----------------------------------------------------------------------------------------------------------------------------------------#
-# list(TRANSFORM TARGET_ASSETS_FILES  PREPEND "${TARGET_ASSETS_DIR}/")
 list(TRANSFORM TARGET_INCLUDE_FILES PREPEND "${TARGET_INCLUDE_DIR}/")
 list(TRANSFORM TARGET_SOURCE_FILES  PREPEND "${TARGET_SOURCE_DIR}/")
