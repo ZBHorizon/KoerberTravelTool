@@ -93,6 +93,30 @@
       "configurePreset": "windows-ninja"
     },
     {
+      "name": "windows-ninja-user-installer",
+      "displayName": "User Installer",
+      "inherits": "windows-ninja-release",
+      "targets": [ "user_installer" ]
+    },
+    {
+      "name": "windows-ninja-admin-installer",
+      "displayName": "Admin Installer",
+      "inherits": "windows-ninja-release",
+      "targets": [ "admin_installer" ]
+    },
+    {
+      "name": "windows-ninja-selection-installer",
+      "displayName": "Selection Installer",
+      "inherits": "windows-ninja-release",
+      "targets": [ "selection_installer" ]
+    },
+    {
+      "name": "windows-ninja-full-package-build",
+      "displayName": "Full Package",
+      "inherits": "windows-ninja-release",
+      "targets": [ "full_package" ]
+    },
+    {
       "name": "windows-vs-debug",
       "displayName": "Debug",
       "configuration": "Debug",
@@ -170,9 +194,9 @@
       "steps": [
         { "type": "configure", "name": "windows-ninja" },
         { "type": "build", "name": "windows-ninja-release" },
-        { "type": "package", "name": "windows-ninja-user-installer" },
-        { "type": "package", "name": "windows-ninja-admin-installer" },
-        { "type": "package", "name": "windows-ninja-selection-installer" }
+        { "type": "build", "name": "windows-ninja-user-installer" },
+        { "type": "build", "name": "windows-ninja-admin-installer" },
+        { "type": "build", "name": "windows-ninja-selection-installer" }
       ]
     }
   ]

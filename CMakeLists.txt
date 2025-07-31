@@ -78,12 +78,13 @@ add_custom_target(admin_installer
 
 # Bundle target builds user/admin installers before the final setup
 add_custom_target(selection_installer
+    DEPENDS user_installer admin_installer
     COMMAND "${CMAKE_CPACK_COMMAND}"
             -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_selection_config.cmake
     COMMENT "Generate combined installer"
 )
 
 add_custom_target(full_package
-    DEPENDS user_installer admin_installer selection_installer
+    DEPENDS selection_installer
     COMMENT "Build all ReiseManager installers"
 )
