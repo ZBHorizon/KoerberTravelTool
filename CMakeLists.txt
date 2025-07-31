@@ -17,16 +17,6 @@ if(NOT CMAKE_INSTALL_PREFIX)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "Installation Directory" FORCE)
 endif()
  
-# Installer target: build NSIS installer if makensis is found
-find_program(NSIS_COMPILER makensis)
-if(NSIS_COMPILER)
-    add_custom_target(installer
-        COMMENT "Building NSIS installer"
-        COMMAND "${NSIS_COMPILER}" "${CMAKE_SOURCE_DIR}/installer/installer.nsi"
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
-else()
-    message(WARNING "makensis not found. Installer target will not be available.")
-endif()
 include(GNUInstallDirs)
 
 # Include directories
@@ -66,4 +56,5 @@ set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/resources/Reise.ico")
 set(CPACK_NSIS_DISPLAY_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
 set(CPACK_MONOLITHIC_INSTALL ON)
+set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/installer.nsi")
 include(CPack)
