@@ -43,7 +43,7 @@ if(BUILD_DOCUMENTATION AND DOXYGEN_FOUND)
     )
 endif()
  
-# CPack packaging support
+# CPack packaging support - Base configuration
 set(CPACK_GENERATOR "NSIS")
 set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_VENDOR "KoerberTravelTool")
@@ -54,7 +54,22 @@ set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/resources/Reise.ico")
 set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/resources/Reise.ico")
 set(CPACK_NSIS_DISPLAY_NAME "${PROJECT_NAME}")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
 set(CPACK_MONOLITHIC_INSTALL ON)
-set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/installer.nsi")
+
+# Generate User installer
+set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_user_config.cmake")
+set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/user_installer.nsi")
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_UserSetup")
+include(CPack)
+
+# Generate Admin installer
+set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_admin_config.cmake")
+set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/admin_installer.nsi")
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_AdminSetup")
+include(CPack)
+
+# Generate Selection installer
+set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_selection_config.cmake")
+set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/selection_installer.nsi")
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}Setup")
 include(CPack)
