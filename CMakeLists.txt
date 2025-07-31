@@ -83,7 +83,7 @@ add_custom_target(selection_installer
     COMMENT "Generate combined installer"
 )
 
-add_custom_target(full_package ALL
+add_custom_target(full_package
     DEPENDS user_installer admin_installer selection_installer
     COMMENT "Build all ReiseManager installers"
 )
