@@ -56,20 +56,34 @@ set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/resources/Reise.ico")
 set(CPACK_NSIS_DISPLAY_NAME "${PROJECT_NAME}")
 set(CPACK_MONOLITHIC_INSTALL ON)
 
-# Generate User installer
-set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_user_config.cmake")
-set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/user_installer.nsi")
-set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_UserSetup")
-include(CPack)
-
-# Generate Admin installer
-set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_admin_config.cmake")
-set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/admin_installer.nsi")
-set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_AdminSetup")
-include(CPack)
-
-# Generate Selection installer
+# Default installer bundles both modes and launches the selected one
 set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_selection_config.cmake")
 set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/selection_installer.nsi")
 set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}Setup")
 include(CPack)
+
+# Helper targets for the individual installers that are embedded inside the
+# final Setup.exe. They run CPack with the respective configuration files.
+add_custom_target(user_installer
+    COMMAND "${CMAKE_CPACK_COMMAND}"
+            -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_user_config.cmake
+    COMMENT "Generate per-user installer"
+)
+
+add_custom_target(admin_installer
+    COMMAND "${CMAKE_CPACK_COMMAND}"
+            -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_admin_config.cmake
+    COMMENT "Generate admin installer"
+)
+
+# Bundle target builds user/admin installers before the final setup
+add_custom_target(selection_installer
+    COMMAND "${CMAKE_CPACK_COMMAND}"
+            -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_selection_config.cmake
+    COMMENT "Generate combined installer"
+)
+
+add_custom_target(full_package ALL
+    DEPENDS user_installer admin_installer selection_installer
+    COMMENT "Build all ReiseManager installers"
+)
