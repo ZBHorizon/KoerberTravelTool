@@ -137,6 +137,43 @@
       "displayName": "Package",
       "configurePreset": "windows-ninja",
       "description": "Erstellt win64.exe im Release-Modus"
+    },
+    {
+      "name": "windows-ninja-user-installer",
+      "displayName": "User Installer",
+      "configurePreset": "windows-ninja",
+      "variables": {
+        "CPACK_PROJECT_CONFIG_FILE": "${sourceDir}/installer/cpack_user_config.cmake"
+      }
+    },
+    {
+      "name": "windows-ninja-admin-installer",
+      "displayName": "Admin Installer",
+      "configurePreset": "windows-ninja",
+      "variables": {
+        "CPACK_PROJECT_CONFIG_FILE": "${sourceDir}/installer/cpack_admin_config.cmake"
+      }
+    },
+    {
+      "name": "windows-ninja-selection-installer",
+      "displayName": "Selection Installer",
+      "configurePreset": "windows-ninja",
+      "variables": {
+        "CPACK_PROJECT_CONFIG_FILE": "${sourceDir}/installer/cpack_selection_config.cmake"
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-ninja-full-package",
+      "displayName": "Full Package",
+      "steps": [
+        { "type": "configure", "name": "windows-ninja" },
+        { "type": "build", "name": "windows-ninja-release" },
+        { "type": "package", "name": "windows-ninja-user-installer" },
+        { "type": "package", "name": "windows-ninja-admin-installer" },
+        { "type": "package", "name": "windows-ninja-selection-installer" }
+      ]
     }
   ]
 }
