@@ -62,16 +62,23 @@ set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/selection_installer.nsi")
 set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}Setup")
 include(CPack)
 
+# Pass the build configuration to CPack when using a multi-config generator
+if(CMAKE_CONFIGURATION_TYPES)
+    set(CPACK_CONFIG_ARG "-C $<CONFIG>")
+else()
+    set(CPACK_CONFIG_ARG "")
+endif()
+
 # Helper targets for the individual installers that are embedded inside the
 # final Setup.exe. They run CPack with the respective configuration files.
 add_custom_target(user_installer
-    COMMAND "${CMAKE_CPACK_COMMAND}"
+    COMMAND "${CMAKE_CPACK_COMMAND}" ${CPACK_CONFIG_ARG}
             -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_user_config.cmake
     COMMENT "Generate per-user installer"
 )
 
 add_custom_target(admin_installer
-    COMMAND "${CMAKE_CPACK_COMMAND}"
+    COMMAND "${CMAKE_CPACK_COMMAND}" ${CPACK_CONFIG_ARG}
             -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_admin_config.cmake
     COMMENT "Generate admin installer"
 )
@@ -79,7 +86,7 @@ add_custom_target(admin_installer
 # Bundle target builds user/admin installers before the final setup
 add_custom_target(selection_installer
     DEPENDS user_installer admin_installer
-    COMMAND "${CMAKE_CPACK_COMMAND}"
+    COMMAND "${CMAKE_CPACK_COMMAND}" ${CPACK_CONFIG_ARG}
             -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_selection_config.cmake
     COMMENT "Generate combined installer"
 )
