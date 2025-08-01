@@ -66,57 +66,57 @@
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "C_Cpp.codeAnalysis.clangTidy.config": "${workspaceFolder}/.clang-tidy",
     "C_Cpp.codeAnalysis.runAutomatically": true,
-    "cmake.options.statusBarVisibility": "visible",
+    "cmake.options.statusBarVisibility": "icon",
     "cmake.options.advanced": {
       "folder": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "configure": {
         "projectStatusVisibility": "visible"
       },
       "configurePreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "kit": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "variant": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "build": {
-        "statusBarVisibility": "visible",
-        "inheritDefault": "visible",
+        "statusBarVisibility": "icon",
+        "inheritDefault": "icon",
         "projectStatusVisibility": "visible"
       },
       "buildPreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "buildTarget": {
         "statusBarVisibility": "visible"
       },
       "ctest": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "testPreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "launchTarget": {
         "statusBarVisibility": "visible"
       },
       "debug": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "launch": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "workflow": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "workflowPreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "packagePreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       }
     }
   }
