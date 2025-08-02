@@ -53,6 +53,14 @@ Root: HKCU; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Fol
 var
   TravelsRoot: string;
 
+function GetDefaultTravelsRoot: string;
+begin
+  if DirExists(ExpandConstant('{userprofile}\OneDrive - Koerber AG')) then
+    Result := ExpandConstant('{userprofile}\OneDrive - Koerber AG\Travels')
+  else
+    Result := ExpandConstant('{userdocs}\Travels');
+end;
+
 function GetTravelsRoot(Param: string): string;
 begin
   Result := TravelsRoot;
@@ -68,15 +76,15 @@ end;
 
 procedure InitializeWizard();
 begin
-  TravelsRoot := ExpandConstant('{userprofile}\\OneDrive - Koerber AG\\Travels');
+  TravelsRoot := GetDefaultTravelsRoot;
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then
   begin
-    if not BrowseForFolder('Select the travels folder', '', TravelsRoot) then
-      TravelsRoot := ExpandConstant('{userprofile}\\OneDrive - Koerber AG\\Travels');
+    if not BrowseForFolder('Select the travels folder', TravelsRoot) then
+      TravelsRoot := GetDefaultTravelsRoot;
   end
   else if CurStep = ssPostInstall then
   begin
@@ -90,7 +98,9 @@ procedure InitializeUninstall();
 begin
   if RegQueryStringValue(HKLM, 'Software\\TravelManager', 'RootTravelsPath', TravelsRoot) then
     Exit;
-  RegQueryStringValue(HKCU, 'Software\\TravelManager', 'RootTravelsPath', TravelsRoot);
+  if RegQueryStringValue(HKCU, 'Software\\TravelManager', 'RootTravelsPath', TravelsRoot) then
+    Exit;
+  TravelsRoot := GetDefaultTravelsRoot;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
