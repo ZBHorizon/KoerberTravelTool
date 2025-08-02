@@ -83,7 +83,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then
   begin
-    if not BrowseForFolder('Select the travels folder', '', TravelsRoot) then
+    if not BrowseForFolder('Select the travels folder', 0, TravelsRoot) then
       TravelsRoot := GetDefaultTravelsRoot;
   end
   else if CurStep = ssPostInstall then
