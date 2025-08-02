@@ -1,45 +1,96 @@
-#define MyAppName "TravelManager"
-#define MyAppExeName "TravelManager.exe"
-#define MyAppVersion "0.1"
+; ===================================================================
+;  TravelManager – single-EXE installer
+;  -------------------------------------------------------------------
+;  • Per-user install by default – user may tick “All users” (admin)
+;  • Lets the user pick / create a “Travels” folder (OneDrive\Travels
+;    or Documents\Travels as sensible default)
+;  • Adds two mandatory Explorer context-menu items
+;      – Create new travel
+;      – Edit travel
+;  • Creates Desktop.ini in the Travels folder (icon + tooltip)
+;  • Uninstaller removes registry data, desktop.ini and (optionally)
+;    the empty Travels folder
+; ===================================================================
 
+#define MyAppName       "TravelManager"
+#define MyAppExeName    "TravelManager.exe"
+#define MyAppVersion    "0.1"
+
+; -------------------------------------------------------------------
+;  SETUP
+; -------------------------------------------------------------------
 [Setup]
-AppName            = {#MyAppName}
-AppVersion         = {#MyAppVersion}
-DefaultDirName     = {code:GetInstallDir}
-DefaultGroupName   = {#MyAppName}
-OutputBaseFilename = TravelManagerSetup
-SetupIconFile      = ..\\resources\\Travel.ico
-Compression        = lzma
-SolidCompression   = yes
-PrivilegesRequired = lowest
-PrivilegesRequiredOverridesAllowed = dialog
+AppName                         = {#MyAppName}
+AppVersion                      = {#MyAppVersion}
+DefaultDirName                  = {code:GetInstallDir}
+DefaultGroupName                = {#MyAppName}
+OutputBaseFilename              = TravelManagerSetup
+SetupIconFile                   = ..\resources\Travel.ico
+Compression                     = lzma
+SolidCompression                = yes
 
+; --- privilege handling ---------------------------------------------
+PrivilegesRequired              = lowest             
+; per-user by default
+PrivilegesRequiredOverridesAllowed = dialog           
+; show “All users” box
+
+; -------------------------------------------------------------------
+;  FILES  &  RUN
+; -------------------------------------------------------------------
 [Files]
 Source: "..\install\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#MyAppName}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "Launch TravelManager"; Flags: nowait postinstall skipifsilent
 
+; -------------------------------------------------------------------
+;  REGISTRY  (⚠ one physical line per entry)
+; -------------------------------------------------------------------
 [Registry]
-// System-wide entries (if installed with admin rights)
-Root: HKLM; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
+
+; --- Per-user HKCU ---------------------------------------------------
+Root: HKCU; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "InstallPath";     ValueData: "{app}";                Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "RootTravelsPath"; ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue
+
+; --- Same keys when setup is elevated (HKLM) ------------------------
+Root: HKLM; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "InstallPath";     ValueData: "{app}";                Flags: uninsdeletevalue; Check: IsAdminInstallMode
 Root: HKLM; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "RootTravelsPath"; ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
 
-// Per-user entries (default)
-Root: HKCU; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
-Root: HKCU; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "RootTravelsPath"; ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
+; --- Mandatory Explorer context-menu items --------------------------
+Root: HKCR; Subkey: "Directory\shell\TravelManager.New";           ValueType: string; ValueData: "Create new travel";                 Flags: uninsdeletekey
+Root: HKCR; Subkey: "Directory\shell\TravelManager.New\command";   ValueType: string; ValueData: """{app}\{#MyAppExeName}"" --new";   Flags: uninsdeletekey
 
+Root: HKCR; Subkey: "Directory\shell\TravelManager.Edit";          ValueType: string; ValueData: "Edit travel";                       Flags: uninsdeletekey
+Root: HKCR; Subkey: "Directory\shell\TravelManager.Edit\command";  ValueType: string; ValueData: """{app}\{#MyAppExeName}"" --edit ""%1"""; Flags: uninsdeletekey
+
+Root: HKCR; Subkey: "lnkfile\shell\TravelManager.Edit";            ValueType: string; ValueData: "Edit travel";                       Flags: uninsdeletekey
+Root: HKCR; Subkey: "lnkfile\shell\TravelManager.Edit\command";    ValueType: string; ValueData: """{app}\{#MyAppExeName}"" --edit ""%1"""; Flags: uninsdeletekey
+
+; -------------------------------------------------------------------
+;  SHORTCUTS  (Start-menu group)
+; -------------------------------------------------------------------
+[Icons]
+Name: "{group}\{#MyAppName}";            Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\Uninstall {#MyAppName}";  Filename: "{uninstallexe}"
+
+; -------------------------------------------------------------------
+;  CODE  (Pascal Script)
+; -------------------------------------------------------------------
 [Code]
+
+{ ===================================================================
+  GLOBALS
+  =================================================================== }
 var
-  TravelsRoot: string;
-  ResultCode: Integer;
-  PageTravelsRoot: TInputDirWizardPage;
+  TravelsRoot : string;               // Folder selected by the user
+  PageTravels : TInputDirWizardPage;  // Folder picker wizard page
+  PageInfo    : TOutputMsgWizardPage; // Static information page
+  ResultCode  : Integer;              // For Exec() return codes
 
-function GetDefaultTravelsRoot(): string;
-begin
-  Result := ExpandConstant('{userdocs}\Travels');
-end;
-
+{ -------------------------------------------------------------------
+  Helper callbacks referenced from the .iss sections
+------------------------------------------------------------------- }
 function GetTravelsRoot(Param: string): string;
 begin
   Result := TravelsRoot;
@@ -53,35 +104,72 @@ begin
     Result := ExpandConstant('{localappdata}\TravelManager');
 end;
 
+{ -------------------------------------------------------------------
+  WIZARD INITIALISATION
+------------------------------------------------------------------- }
 procedure InitializeWizard;
+var
+  profile, defPath, infoMsg: string;
 begin
-  // Allow user to select the Travels root folder
-  PageTravelsRoot := CreateInputDirPage(
-    wpSelectDir,
-    'Select Travels Folder',
-    'Where should your travel data be stored?',
-    'Choose the folder for TravelManager to store travel definitions.',
-    False, ''
-  );
-  PageTravelsRoot.Add('');
-  PageTravelsRoot.Values[0] := GetDefaultTravelsRoot();
+  { -- sensible default for Travels folder -------------------------- }
+  profile := GetEnv('USERPROFILE');
+  if (profile <> '') and DirExists(profile + '\OneDrive') then
+    defPath := profile + '\OneDrive\Travels'
+  else
+    defPath := ExpandConstant('{userdocs}\Travels');
+  TravelsRoot := defPath;
+
+  { -- Page 1 : folder picker --------------------------------------- }
+  PageTravels := CreateInputDirPage(
+                   wpSelectDir,
+                   'Select Travels Folder',
+                   'Where should your travel data be stored?',
+                   'Choose or create the folder where TravelManager keeps all travel definitions.',
+                   True, { allow “New Folder” } ''
+                 );
+  PageTravels.Add('');
+  PageTravels.Values[0] := defPath;
+
+  { -- Page 2 : static info about Explorer integration -------------- }
+  infoMsg :=
+      'TravelManager adds the following context-menu shortcuts:' + #13#10#13#10 +
+      '• Create new travel'  + #13#10 +
+      '• Edit travel'        + #13#10#13#10 +
+      'These items appear on folders and shortcuts, allowing quick creation ' +
+      'or editing of a travel definition.';
+
+  PageInfo := CreateOutputMsgPage(
+                 PageTravels.ID,       // show directly after folder page
+                 'Explorer Integration',
+                 '',                   // (caption description – not needed)
+                 infoMsg
+               );
 end;
 
-procedure CurPageChanged(CurPageID: Integer);
+{ -------------------------------------------------------------------
+  Validate folder page before leaving
+------------------------------------------------------------------- }
+function NextButtonClick(CurPageID: Integer): Boolean;
 begin
-  if CurPageID = PageTravelsRoot.ID then
+  Result := True;   // allow Next by default
+
+  if CurPageID = PageTravels.ID then
   begin
-    // Validate folder selection
-    if DirExists(PageTravelsRoot.Values[0]) then
-      TravelsRoot := PageTravelsRoot.Values[0]
+    if DirExists(PageTravels.Values[0]) then
+      TravelsRoot := PageTravels.Values[0]
     else
     begin
-      MsgBox('The selected folder does not exist. Please choose a valid directory.', mbError, MB_OK);
-      PageTravelsRoot.Values[0] := GetDefaultTravelsRoot();
+      MsgBox('The selected folder does not exist. Please choose a valid directory.',
+             mbError, MB_OK);
+      Result := False;   // stay on the page
     end;
   end;
 end;
 
+
+{ -------------------------------------------------------------------
+  POST-INSTALL : create Desktop.ini + set attributes
+------------------------------------------------------------------- }
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   iniFile: string;
@@ -89,23 +177,37 @@ begin
   if CurStep = ssPostInstall then
   begin
     iniFile := TravelsRoot + '\Desktop.ini';
+
     SaveStringToFile(
       iniFile,
-      '[.ShellClassInfo]' + #13#10 +
-      'IconResource=' + ExpandConstant('{app}\{#MyAppExeName},0') + #13#10 +
-      'IconFile='     + ExpandConstant('{app}\{#MyAppExeName}') + #13#10 +
-      'IconIndex=0' + #13#10 +
+      '[.ShellClassInfo]'#13#10 +
+      'IconResource=' + ExpandConstant('{app}\{#MyAppExeName}') + ',0'#13#10 +
+      'IconFile='     + ExpandConstant('{app}\{#MyAppExeName}')       + #13#10 +
+      'IconIndex=0'#13#10 +
       'InfoTip=Folder containing all Travel definitions.',
-      False
-    );
-    Exec('cmd.exe', '/C attrib +S +H "' + iniFile + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-    Exec('cmd.exe', '/C attrib +S "' + TravelsRoot + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      False);   // do not overwrite if user already has one
+
+    Exec('cmd.exe', '/C attrib +h +s "' + iniFile   + '"', '', SW_HIDE,
+         ewWaitUntilTerminated, ResultCode);
+    Exec('cmd.exe', '/C attrib +s "'  + TravelsRoot + '"', '', SW_HIDE,
+         ewWaitUntilTerminated, ResultCode);
   end;
 end;
 
-procedure InitializeUninstallProgressForm;
+{ -------------------------------------------------------------------
+  UNINSTALLER : remove desktop.ini and (optionally) folder
+------------------------------------------------------------------- }
+procedure DeinitializeUninstall;
+var
+  rootPath, iniFile: string;
 begin
-  if RegQueryStringValue(HKLM, 'Software\TravelManager', 'RootTravelsPath', TravelsRoot) then
-    exit;
-  RegQueryStringValue(HKCU, 'Software\TravelManager', 'RootTravelsPath', TravelsRoot);
+  if RegQueryStringValue(HKCU, 'Software\TravelManager', 'RootTravelsPath', rootPath) or
+     RegQueryStringValue(HKLM, 'Software\TravelManager', 'RootTravelsPath', rootPath) then
+  begin
+    iniFile := rootPath + '\Desktop.ini';
+    if FileExists(iniFile) then DeleteFile(iniFile);
+
+    { silently fails if folder still contains user data }
+    RemoveDir(rootPath);
+  end;
 end;
