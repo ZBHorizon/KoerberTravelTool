@@ -21,30 +21,37 @@ Source: "..\\install\\*"; DestDir: "{app}"; Flags: recursesubdirs
 Filename: "{app}\\{#MyAppExeName}"; Description: "{cm:LaunchProgram,TravelManager}"; Flags: nowait postinstall skipifsilent
 
 [Registry]
-Root: {code:GetRegRoot}; Subkey: "Software\\TravelManager"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"; Flags: uninsdeletevalue
-Root: {code:GetRegRoot}; Subkey: "Software\\TravelManager"; ValueType: string; ValueName: "RootTravelsPath"; ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New"; ValueType: string; ValueData: "Create new travel"; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New"; ValueType: string; ValueName: "AppliesTo"; ValueData: "System.ItemPathDisplay:='{code:GetTravelsRoot}'"; Flags: uninsdeletevalue
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --new'; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit"; ValueType: string; ValueData: "Edit travel"; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit"; ValueType: string; ValueName: "AppliesTo"; ValueData: "System.ItemPathDisplay:='{code:GetTravelsRoot}\\*'"; Flags: uninsdeletevalue
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --edit "%1"'; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\lnkfile\\shell\\TravelManager.Edit"; ValueType: string; ValueData: "Edit travel"; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Classes\\lnkfile\\shell\\TravelManager.Edit\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --edit "%1"'; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderTypes\\{8AA0F2C2-7F91-4F62-BF55-3D2C3AA7EBDC}"; ValueType: string; ValueName: "Name"; ValueData: "Travels"; Flags: uninsdeletekey
-Root: {code:GetRegRoot}; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderTypes\\{8AA0F2C2-7F91-4F62-BF55-3D2C3AA7EBDC}\\TopViews\\{00000000-0000-0000-0000-000000000000}"; ValueType: string; ValueName: "ColumnList"; ValueData: "prop:System.ItemNameDisplay;System.Title;System.Company;System.Category;System.Calendar.Location;System.Duration;System.StartDate;System.EndDate;System.DateCreated"; Flags: uninsdeletevalue
+; Entries for machine-wide install (administrative)
+Root: HKLM; Subkey: "Software\\TravelManager"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\TravelManager"; ValueType: string; ValueName: "RootTravelsPath"; ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New"; ValueType: string; ValueData: "Create new travel"; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New"; ValueType: string; ValueName: "AppliesTo"; ValueData: "System.ItemPathDisplay:='{code:GetTravelsRoot}'"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --new'; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit"; ValueType: string; ValueData: "Edit travel"; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit"; ValueType: string; ValueName: "AppliesTo"; ValueData: "System.ItemPathDisplay:='{code:GetTravelsRoot}\\*'"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --edit "%1"'; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\lnkfile\\shell\\TravelManager.Edit"; ValueType: string; ValueData: "Edit travel"; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Classes\\lnkfile\\shell\\TravelManager.Edit\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --edit "%1"'; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderTypes\\{8AA0F2C2-7F91-4F62-BF55-3D2C3AA7EBDC}"; ValueType: string; ValueName: "Name"; ValueData: "Travels"; Flags: uninsdeletekey; Check: IsAdminInstallMode
+Root: HKLM; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderTypes\\{8AA0F2C2-7F91-4F62-BF55-3D2C3AA7EBDC}\\TopViews\\{00000000-0000-0000-0000-000000000000}"; ValueType: string; ValueName: "ColumnList"; ValueData: "prop:System.ItemNameDisplay;System.Title;System.Company;System.Category;System.Calendar.Location;System.Duration;System.StartDate;System.EndDate;System.DateCreated"; Flags: uninsdeletevalue; Check: IsAdminInstallMode
+
+; Entries for per-user install
+Root: HKCU; Subkey: "Software\\TravelManager"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\TravelManager"; ValueType: string; ValueName: "RootTravelsPath"; ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New"; ValueType: string; ValueData: "Create new travel"; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New"; ValueType: string; ValueName: "AppliesTo"; ValueData: "System.ItemPathDisplay:='{code:GetTravelsRoot}'"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.New\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --new'; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit"; ValueType: string; ValueData: "Edit travel"; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit"; ValueType: string; ValueName: "AppliesTo"; ValueData: "System.ItemPathDisplay:='{code:GetTravelsRoot}\\*'"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\Directory\\shell\\TravelManager.Edit\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --edit "%1"'; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\lnkfile\\shell\\TravelManager.Edit"; ValueType: string; ValueData: "Edit travel"; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Classes\\lnkfile\\shell\\TravelManager.Edit\\command"; ValueType: string; ValueData: '"{app}\\{#MyAppExeName}" --edit "%1"'; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderTypes\\{8AA0F2C2-7F91-4F62-BF55-3D2C3AA7EBDC}"; ValueType: string; ValueName: "Name"; ValueData: "Travels"; Flags: uninsdeletekey; Check: not IsAdminInstallMode
+Root: HKCU; Subkey: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderTypes\\{8AA0F2C2-7F91-4F62-BF55-3D2C3AA7EBDC}\\TopViews\\{00000000-0000-0000-0000-000000000000}"; ValueType: string; ValueName: "ColumnList"; ValueData: "prop:System.ItemNameDisplay;System.Title;System.Company;System.Category;System.Calendar.Location;System.Duration;System.StartDate;System.EndDate;System.DateCreated"; Flags: uninsdeletevalue; Check: not IsAdminInstallMode
 
 [Code]
 var
   TravelsRoot: string;
-
-function GetRegRoot(Param: string): Integer;
-begin
-  if IsAdminInstallMode then
-    Result := HKLM
-  else
-    Result := HKCU;
-end;
 
 function GetTravelsRoot(Param: string): string;
 begin
