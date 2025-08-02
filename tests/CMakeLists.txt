@@ -12,7 +12,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_executable(TripTests
     TripTests.cpp
 )
-target_link_libraries(TripTests PRIVATE ReiseManager::Core GTest::gtest_main)
+target_link_libraries(TripTests PRIVATE TravelManager::Core GTest::gtest_main)
 
 enable_testing()
 add_test(NAME TripTests COMMAND TripTests)

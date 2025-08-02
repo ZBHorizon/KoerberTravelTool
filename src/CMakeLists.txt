@@ -5,10 +5,10 @@ add_subdirectory(Core)
 if(WIN32)
     add_subdirectory(UI)
 
-    add_library(ReiseResources OBJECT ReiseManager.rc)
+    add_library(TravelResources OBJECT TravelManager.rc)
 
-    add_executable(ReiseManager WIN32 main.cpp $<TARGET_OBJECTS:ReiseResources>)
-    target_link_libraries(ReiseManager PRIVATE ReiseManager::Core ReiseManager::UI)
+    add_executable(TravelManager WIN32 main.cpp $<TARGET_OBJECTS:TravelResources>)
+    target_link_libraries(TravelManager PRIVATE TravelManager::Core TravelManager::UI)
 
-    install(TARGETS ReiseManager RUNTIME DESTINATION bin)
+    install(TARGETS TravelManager RUNTIME DESTINATION bin)
 endif()

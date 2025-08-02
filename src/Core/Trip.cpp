@@ -1,4 +1,4 @@
-#include <ReiseManager/Core/Trip.hpp>
+#include <TravelManager/Core/Trip.hpp>
 #include <stdexcept>
 #include <filesystem>
 #include <ctime>
@@ -11,7 +11,7 @@
 #include <atlconv.h>
 #endif
 
-using namespace ReiseManager::Core;
+using namespace TravelManager::Core;
 
 #ifdef _WIN32
 static std::time_t FileTimeToUnixTime(const FILETIME &ft)
@@ -170,7 +170,7 @@ void Trip::ApplyToShortcut(const std::filesystem::path &shortcutPath) const
         store->SetValue(PKEY_EndDate, pv);
         PropVariantClear(&pv);
         wchar_t dur[32];
-        swprintf(dur, 32, L"%d Tage", GetDuration());
+        swprintf(dur, 32, L"%d days", GetDuration());
         InitPropVariantFromString(dur, &pv);
         store->SetValue(PKEY_Calendar_Duration, pv);
         PropVariantClear(&pv);

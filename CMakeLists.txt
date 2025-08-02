@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27)
 cmake_policy(SET CMP0048 NEW)
-project(ReiseManager VERSION 0.1 LANGUAGES CXX)
+project(TravelManager VERSION 0.1 LANGUAGES CXX)
 
 # Options
 option(BUILD_TESTS "Build unit tests" ON)
@@ -30,7 +30,7 @@ if(BUILD_TESTS)
 endif()
 
 # Install resources
-install(DIRECTORY resources/ DESTINATION share/ReiseManager/resources)
+install(DIRECTORY resources/ DESTINATION share/TravelManager/resources)
 
 # Generate Doxygen documentation (if Doxygen is available)
 find_package(Doxygen QUIET)
@@ -43,18 +43,25 @@ if(BUILD_DOCUMENTATION AND DOXYGEN_FOUND)
     )
 endif()
  
-# CPack packaging support
-set(CPACK_GENERATOR "NSIS")
+# CPack packaging with Inno Setup
 set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_VENDOR "KoerberTravelTool")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ReiseManager Installer")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "TravelManager Installer")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/resources/Reise.ico")
-set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/resources/Reise.ico")
-set(CPACK_NSIS_DISPLAY_NAME "${PROJECT_NAME}")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
-set(CPACK_MONOLITHIC_INSTALL ON)
-set(CPACK_NSIS_TEMPLATE "${CMAKE_SOURCE_DIR}/installer/installer.nsi")
+set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_inno_config.cmake")
 include(CPack)
+
+if(CMAKE_CONFIGURATION_TYPES)
+    set(CPACK_CONFIG_ARG "-C $<CONFIG>")
+else()
+    set(CPACK_CONFIG_ARG "")
+endif()
+
+add_custom_target(installer
+    COMMAND "${CMAKE_CPACK_COMMAND}" ${CPACK_CONFIG_ARG}
+            -D CPACK_GENERATOR=External
+            -D CPACK_PROJECT_CONFIG_FILE=${CMAKE_SOURCE_DIR}/installer/cpack_inno_config.cmake
+    COMMENT "Generate TravelManager Setup.exe"
+)

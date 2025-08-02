@@ -3,9 +3,9 @@
 #include <windows.h>
 #include <string>
 #include <filesystem>
-#include <ReiseManager/Core/Trip.hpp>
+#include <TravelManager/Core/Trip.hpp>
 
-namespace ReiseManager::UI
+namespace TravelManager::UI
 {
 
     /**
@@ -33,12 +33,12 @@ namespace ReiseManager::UI
          * Retrieve the trip metadata entered by the user.
          * Only valid if Show() returned IDOK.
          */
-        ReiseManager::Core::Trip GetTrip() const;
+        TravelManager::Core::Trip GetTrip() const;
 
     private:
         bool modeNew_;
         std::filesystem::path targetPath_;
-        ReiseManager::Core::Trip trip_;
+        TravelManager::Core::Trip trip_;
 
         // handles and result for the simple input window
         HWND hwnd_ = nullptr;
@@ -54,4 +54,4 @@ namespace ReiseManager::UI
         int dialogResult_ = IDCANCEL;
     };
 
-} // namespace ReiseManager::UI
+} // namespace TravelManager::UI

@@ -93,6 +93,12 @@
       "configurePreset": "windows-ninja"
     },
     {
+      "name": "windows-ninja-installer",
+      "displayName": "Installer",
+      "inherits": "windows-ninja-release",
+      "targets": [ "installer" ]
+    },
+    {
       "name": "windows-vs-debug",
       "displayName": "Debug",
       "configuration": "Debug",
@@ -133,10 +139,22 @@
   ],
   "packagePresets": [
     {
-      "name": "windows-ninja-package",
-      "displayName": "Package",
+      "name": "windows-ninja-installer",
+      "displayName": "Installer",
       "configurePreset": "windows-ninja",
-      "description": "Erstellt win64.exe im Release-Modus"
+      "description": "Creates TravelManagerSetup.exe"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-ninja-installer",
+      "displayName": "Build and Package",
+      "steps": [
+        { "type": "configure", "name": "windows-ninja" },
+        { "type": "build", "name": "windows-ninja-release" },
+        { "type": "build", "name": "windows-ninja-installer" },
+        { "type": "package", "name": "windows-ninja-installer" }
+      ]
     }
   ]
 }

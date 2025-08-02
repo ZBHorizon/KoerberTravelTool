@@ -1,4 +1,4 @@
-#include <ReiseManager/Core/Logger.hpp>
+#include <TravelManager/Core/Logger.hpp>
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -8,7 +8,7 @@
 #include <windows.h>
 #endif
 
-namespace ReiseManager::Core {
+namespace TravelManager::Core {
 
 static std::filesystem::path GetLogPath()
 {
@@ -18,10 +18,10 @@ static std::filesystem::path GetLogPath()
     _wdupenv_s(&appdata, &len, L"LOCALAPPDATA");
     std::filesystem::path p = appdata ? appdata : L".";
     free(appdata);
-    p /= L"ReiseManager.log";
+    p /= L"TravelManager.log";
     return p;
 #else
-    return "ReiseManager.log";
+    return "TravelManager.log";
 #endif
 }
 
@@ -41,4 +41,4 @@ void Log(const std::string &level, const std::string &message)
     out << oss.str() << " [" << level << "] " << message << std::endl;
 }
 
-} // namespace ReiseManager::Core
+} // namespace TravelManager::Core
