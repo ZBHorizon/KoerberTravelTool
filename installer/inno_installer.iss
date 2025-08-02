@@ -83,7 +83,10 @@ procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then
   begin
-    if not BrowseForFolder('Select the travels folder', 0, TravelsRoot) then
+    { Prompt the user for a travels folder. Parent window is none (0) and the
+      New Folder button is enabled. If the dialog is canceled, fall back to the
+      default path. }
+    if not BrowseForFolder('Select the travels folder', TravelsRoot, 0, True) then
       TravelsRoot := GetDefaultTravelsRoot;
   end
   else if CurStep = ssPostInstall then
