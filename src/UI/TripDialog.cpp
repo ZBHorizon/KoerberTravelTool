@@ -1,10 +1,10 @@
-#include <ReiseManager/UI/TripDialog.hpp>
+#include <TravelManager/UI/TripDialog.hpp>
 #include <commctrl.h>
 #include <stdexcept>
 #include <sstream>
 #include <ctime>
 
-using namespace ReiseManager::UI;
+using namespace TravelManager::UI;
 
 TripDialog::TripDialog(bool modeNew, const std::filesystem::path &targetPath)
     : modeNew_(modeNew), targetPath_(targetPath)
@@ -19,7 +19,7 @@ TripDialog::TripDialog(bool modeNew, const std::filesystem::path &targetPath)
         }
         if (std::filesystem::exists(folder))
         {
-            trip_ = ReiseManager::Core::Trip::FromFolder(folder);
+            trip_ = TravelManager::Core::Trip::FromFolder(folder);
         }
     }
 #else
@@ -33,7 +33,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
     INITCOMMONCONTROLSEX icc{sizeof(icc), ICC_DATE_CLASSES};
     InitCommonControlsEx(&icc);
 
-    static const wchar_t CLASS_NAME[] = L"ReiseManagerTripDialog";
+    static const wchar_t CLASS_NAME[] = L"TravelManagerTripDialog";
     static bool registered = false;
     if (!registered)
     {
@@ -158,7 +158,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
                     std::tm tmEnd{stEnd.wSecond, stEnd.wMinute, stEnd.wHour, stEnd.wDay, stEnd.wMonth - 1, stEnd.wYear - 1900};
                     auto start_tp = std::chrono::system_clock::from_time_t(mktime(&tmStart));
                     auto end_tp = std::chrono::system_clock::from_time_t(mktime(&tmEnd));
-                    dlg->trip_ = ReiseManager::Core::Trip({std::string(sd.begin(), sd.end()), std::string(pos.begin(), pos.end())},
+                    dlg->trip_ = TravelManager::Core::Trip({std::string(sd.begin(), sd.end()), std::string(pos.begin(), pos.end())},
                                                           std::string(title.begin(), title.end()), std::string(mach.begin(), mach.end()),
                                                           std::string(comp.begin(), comp.end()), std::string(loc.begin(), loc.end()),
                                                           start_tp, end_tp);
@@ -202,7 +202,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
         registered = true;
     }
 
-    hwnd_ = CreateWindowExW(WS_EX_DLGMODALFRAME, CLASS_NAME, modeNew_ ? L"Neue Reise" : L"Reise bearbeiten",
+    hwnd_ = CreateWindowExW(WS_EX_DLGMODALFRAME, CLASS_NAME, modeNew_ ? L"New travel" : L"Edit travel",
                             WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 330, 340, hParent, nullptr, hInstance, this);
     ShowWindow(hwnd_, SW_SHOW);
     UpdateWindow(hwnd_);
@@ -222,7 +222,7 @@ int TripDialog::Show(HINSTANCE hInstance, HWND hParent)
 #endif
 }
 
-ReiseManager::Core::Trip TripDialog::GetTrip() const
+TravelManager::Core::Trip TripDialog::GetTrip() const
 {
     return trip_;
 }

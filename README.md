@@ -1,40 +1,40 @@
-# ReiseManager
+# TravelManager
 
-ReiseManager is a Windows desktop application for creating and managing travel (Reise) folders with rich metadata, integrated into File Explorer.
+TravelManager is a Windows desktop application for creating and managing travel folders with rich metadata, integrated into File Explorer.
 
 ## Requirements
 - Windows 10 or later
 - CMake 3.10+
 - Visual Studio with C++17 support
-- NSIS (for installer)
+- Inno Setup (for installer)
 
 ## Build
 ```powershell
 mkdir build; cd build
-# Installation im Benutzerprofil ohne Admin-Rechte
-cmake .. -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX="%LOCALAPPDATA%/ReiseManager"
+# Install into the user profile without administrator rights
+cmake .. -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX="%LOCALAPPDATA%/TravelManager"
 cmake --build . --config Release
 cmake --install . --config Release
 ```
 
 ## Install
-After building run CPack to generate the installer:
+After building run the custom installer target to generate the setup:
 ```powershell
-cpack --preset windows-ninja-package
+cmake --build . --config Release --target installer
 ```
-The resulting `ReiseManagerSetup.exe` is placed in the `build` directory and
+The resulting `TravelManagerSetup.exe` is placed in the `build` directory and
 contains all files from the install tree without any component selection.
 The installer allows selecting both the installation directory and the target
-`Reisen` root folder. It registers Explorer context menus and configures the
-Reisen folder view to show columns for Name, Titel, Firma, Kategorien, Ort,
-Dauer, Startdatum, Enddatum and Erstelldatum so you can create or edit trips
+`Travels` root folder. It registers Explorer context menus and configures the
+Travels folder view to show columns for Name, Title, Company, Category, Location,
+Duration, Start Date, End Date and Date Created so you can create or edit trips
 directly from File Explorer. During installation an **Uninstall.exe** is
 generated in the chosen directory and also registered with "Apps & Features" so
 the application can be removed easily.
 
 ## Usage
-- Right-click the root "Reisen" folder and select **Neue Reise erstellen** to create a new trip.
-- Right-click an existing trip folder or its shortcut and select **Reise bearbeiten** to edit a trip.
+- Right-click the root "Travels" folder and select **Create new travel** to create a new trip.
+- Right-click an existing travel folder or its shortcut and select **Edit travel** to edit a trip.
 - Command-line options:
   - `--new`
   - `--edit "<path>"`

@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 #include <filesystem>
-#include <ReiseManager/UI/TripDialog.hpp>
-#include <ReiseManager/Core/Trip.hpp>
-#include <ReiseManager/Core/Logger.hpp>
+#include <TravelManager/UI/TripDialog.hpp>
+#include <TravelManager/Core/Trip.hpp>
+#include <TravelManager/Core/Logger.hpp>
 #include <shlwapi.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
@@ -38,31 +38,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
         }
     }
 
-    ReiseManager::UI::TripDialog dialog(newMode, targetPath);
+    TravelManager::UI::TripDialog dialog(newMode, targetPath);
     int result = dialog.Show(hInstance, nullptr);
     if (result == IDOK)
     {
         auto trip = dialog.GetTrip();
         wchar_t rootBuf[512];
         DWORD len = sizeof(rootBuf);
-        if (ERROR_SUCCESS != RegGetValueW(HKEY_CURRENT_USER, L"Software\\ReiseManager", L"RootReisenPath", RRF_RT_REG_SZ, nullptr, rootBuf, &len))
+        if (ERROR_SUCCESS != RegGetValueW(HKEY_CURRENT_USER, L"Software\\TravelManager", L"RootTravelsPath", RRF_RT_REG_SZ, nullptr, rootBuf, &len))
         {
-            ExpandEnvironmentStringsW(L"%USERPROFILE%\\OneDrive - K\xF6rber AG\\Reisen", rootBuf, 512);
+            ExpandEnvironmentStringsW(L"%USERPROFILE%\\OneDrive - Koerber AG\\Travels", rootBuf, 512);
         }
         std::filesystem::path rootPath(rootBuf);
         auto folderName = trip.ComputeFolderName();
 
         if (newMode)
         {
-            ReiseManager::Core::Log("INFO", "Creating trip " + folderName);
+            TravelManager::Core::Log("INFO", "Creating trip " + folderName);
             auto tripFolder = rootPath / folderName;
             std::filesystem::create_directory(tripFolder);
             SetFileAttributesW(tripFolder.wstring().c_str(), FILE_ATTRIBUTE_HIDDEN);
-            ReiseManager::Core::Log("INFO", "Created folder " + tripFolder.string());
+            TravelManager::Core::Log("INFO", "Created folder " + tripFolder.string());
             std::filesystem::path linkPath = rootPath / folderName;
             linkPath.replace_extension(L".lnk");
             trip.ApplyToShortcut(linkPath);
-            ReiseManager::Core::Log("INFO", "Wrote shortcut " + linkPath.string());
+            TravelManager::Core::Log("INFO", "Wrote shortcut " + linkPath.string());
         }
         else
         {
@@ -77,17 +77,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
             if (!std::filesystem::equivalent(old, newFolder))
             {
                 std::filesystem::rename(old, newFolder);
-                ReiseManager::Core::Log("INFO", "Renamed folder to " + newFolder.string());
+                TravelManager::Core::Log("INFO", "Renamed folder to " + newFolder.string());
             }
             std::filesystem::path newLink = rootPath / folderName;
             newLink.replace_extension(L".lnk");
             if (oldLink != newLink && std::filesystem::exists(oldLink))
             {
                 std::filesystem::rename(oldLink, newLink);
-                ReiseManager::Core::Log("INFO", "Renamed shortcut to " + newLink.string());
+                TravelManager::Core::Log("INFO", "Renamed shortcut to " + newLink.string());
             }
             trip.ApplyToShortcut(newLink);
-            ReiseManager::Core::Log("INFO", "Updated metadata");
+            TravelManager::Core::Log("INFO", "Updated metadata");
         }
     }
     return 0;

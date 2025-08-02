@@ -1,4 +1,4 @@
-# Source file lists for ReiseManagerUI
+# Source file lists for TravelManagerUI
 
 set(TARGET_INCLUDE_FILES
     "TripDialog.hpp"
@@ -8,7 +8,7 @@ set(TARGET_SOURCE_FILES
     "TripDialog.cpp"
 )
 
-set(TARGET_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/ReiseManager/UI")
+set(TARGET_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/TravelManager/UI")
 set(TARGET_SOURCE_DIR  "${PROJECT_SOURCE_DIR}/src/UI")
 
 list(TRANSFORM TARGET_INCLUDE_FILES PREPEND "${TARGET_INCLUDE_DIR}/")
