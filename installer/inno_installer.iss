@@ -75,8 +75,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then
   begin
-    TravelsRoot := BrowseForFolder('Select the travels folder', TravelsRoot, 0);
-    if TravelsRoot = '' then
+    if not BrowseForFolder('Select the travels folder', '', TravelsRoot) then
       TravelsRoot := ExpandConstant('{userprofile}\\OneDrive - Koerber AG\\Travels');
   end
   else if CurStep = ssPostInstall then
