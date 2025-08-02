@@ -4,10 +4,10 @@
 #include <chrono>
 #include <filesystem>
 
-namespace ReiseManager::Core {
+namespace TravelManager::Core {
 
 /**
- * Represents a Reise (trip) with metadata.
+ * Represents a trip with metadata.
  */
 class Trip {
 public:
@@ -53,4 +53,4 @@ private:
     std::chrono::system_clock::time_point end_;
 };
 
-} // namespace ReiseManager::Core
+} // namespace TravelManager::Core

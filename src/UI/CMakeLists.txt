@@ -2,20 +2,20 @@
 
 include(CMakeFiles.txt)
 
-add_library(ReiseManagerUI STATIC)
+add_library(TravelManagerUI STATIC)
 
-target_sources(ReiseManagerUI PRIVATE ${TARGET_SOURCE_FILES} ${TARGET_INCLUDE_FILES})
+target_sources(TravelManagerUI PRIVATE ${TARGET_SOURCE_FILES} ${TARGET_INCLUDE_FILES})
 
-target_include_directories(ReiseManagerUI PUBLIC
+target_include_directories(TravelManagerUI PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 )
 
-target_compile_features(ReiseManagerUI PUBLIC cxx_std_17)
+target_compile_features(TravelManagerUI PUBLIC cxx_std_17)
 
-target_link_libraries(ReiseManagerUI PRIVATE ReiseManager::Core)
+target_link_libraries(TravelManagerUI PRIVATE TravelManager::Core)
 
 if(WIN32)
-    target_link_libraries(ReiseManagerUI PUBLIC comctl32)
+    target_link_libraries(TravelManagerUI PUBLIC comctl32)
 endif()
 
-add_library(ReiseManager::UI ALIAS ReiseManagerUI)
+add_library(TravelManager::UI ALIAS TravelManagerUI)

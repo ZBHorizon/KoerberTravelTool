@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "ReiseManager/Core/Trip.hpp"
+#include "TravelManager/Core/Trip.hpp"
 #include <chrono>
 
-using namespace ReiseManager::Core;
+using namespace TravelManager::Core;
 
 TEST(TripTests, DurationCalculation) {
     auto start = std::chrono::system_clock::now();
@@ -23,7 +23,7 @@ TEST(TripTests, FolderName) {
 TEST(TripTests, ShortcutWriteRead) {
     auto now = std::chrono::system_clock::now();
     Trip trip({"SD","02"}, "Title", "Machine", "Company", "Location", now, now);
-    std::filesystem::path tmp = std::filesystem::temp_directory_path() / L"RMTest";
+    std::filesystem::path tmp = std::filesystem::temp_directory_path() / L"TMTest";
     std::filesystem::create_directory(tmp);
     auto lnk = tmp / L"SD-02.lnk";
     trip.ApplyToShortcut(lnk);

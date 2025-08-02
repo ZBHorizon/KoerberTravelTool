@@ -1,4 +1,4 @@
-# Source file lists for ReiseManagerCore
+# Source file lists for TravelManagerCore
 
 set(TARGET_INCLUDE_FILES
     "Trip.hpp"
@@ -10,7 +10,7 @@ set(TARGET_SOURCE_FILES
     "Logger.cpp"
 )
 
-set(TARGET_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/ReiseManager/Core")
+set(TARGET_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/TravelManager/Core")
 set(TARGET_SOURCE_DIR  "${PROJECT_SOURCE_DIR}/src/Core")
 
 list(TRANSFORM TARGET_INCLUDE_FILES PREPEND "${TARGET_INCLUDE_DIR}/")
