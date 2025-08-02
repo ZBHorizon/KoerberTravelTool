@@ -1,11 +1,11 @@
 ; ============================================================
 ;  TravelManager – single-EXE installer
 ;  ------------------------------------------------------------
-;  • Per-user install by default (checkbox lets user elevate)
-;  • User can pick / create a “Travels” folder
-;  • Adds mandatory Explorer context-menu items   (New / Edit)
-;  • Creates Desktop.ini with custom icon + tooltip
-;  • Uninstaller removes registry keys & Desktop.ini
+;   Per-user install by default (checkbox lets user elevate)
+;   User can pick / create a “Travels” folder
+;   Adds mandatory Explorer context-menu items   (New / Edit)
+;   Creates Desktop.ini with custom icon + tooltip
+;   Uninstaller removes registry keys & Desktop.ini
 ; ============================================================
 
 #define MyAppName     "TravelManager"
@@ -25,7 +25,7 @@ SetupIconFile                = ..\resources\Travel.ico
 Compression                  = lzma
 SolidCompression             = yes
 
-; privilege handling – “per user” unless user ticks the box
+; privilege handling per user unless user ticks the box
 PrivilegesRequired           = lowest
 PrivilegesRequiredOverridesAllowed = dialog
 
@@ -47,7 +47,7 @@ Filename: "{app}\{#MyAppExeName}"; Description: "Launch TravelManager"; Flags: n
 Root: HKCU; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "InstallPath";      ValueData: "{app}";               Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\TravelManager"; ValueType: string; ValueName: "RootTravelsPath";  ValueData: "{code:GetTravelsRoot}"; Flags: uninsdeletevalue
 
-;   Context-menu items → HKCU\Software\Classes  (user area of HKCR)
+;   Context-menu items HKCU\Software\Classes  (user area of HKCR)
 Root: HKCU; Subkey: "Software\Classes\Directory\shell\TravelManager.New"; ValueType: string; ValueData: "Create new travel";               Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\Directory\shell\TravelManager.New\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" --new"; Flags: uninsdeletekey
 
@@ -108,7 +108,7 @@ begin
 end;
 
 { -------------------------------------------------------------------
-  WIZARD INITIALISATION – create pages & defaults
+  WIZARD INITIALISATION create pages & defaults
 ------------------------------------------------------------------- }
 procedure InitializeWizard;
 var
@@ -122,7 +122,7 @@ begin
     defPath := ExpandConstant('{userdocs}\Travels');
   TravelsRoot := defPath;
 
-  { Page 1 – folder picker }
+  { Page 1 folder picker }
   PageTravels := CreateInputDirPage(
                    wpSelectDir,
                    'Select Travels Folder',
@@ -133,7 +133,7 @@ begin
   PageTravels.Add('');
   PageTravels.Values[0] := defPath;
 
-  { Page 2 – static info page }
+  { Page 2  static info page }
   infoMsg :=
       'TravelManager adds the following context-menu shortcuts:' + #13#10#13#10 +
       '• Create new travel' + #13#10 +
@@ -169,7 +169,7 @@ begin
 end;
 
 { -------------------------------------------------------------------
-  POST-INSTALL – create Desktop.ini & set attributes
+  POST-INSTALL create Desktop.ini & set attributes
 ------------------------------------------------------------------- }
 procedure CurStepChanged(CurStep: TSetupStep);
 var
@@ -195,7 +195,7 @@ begin
 end;
 
 { -------------------------------------------------------------------
-  UNINSTALLER – remove Desktop.ini and folder (if empty)
+  UNINSTALLER remove Desktop.ini and folder (if empty)
 ------------------------------------------------------------------- }
 procedure DeinitializeUninstall;
 var
