@@ -52,12 +52,15 @@ else()
     set(INSTALL_CONFIG_ARG "")
 endif()
 
-add_custom_target(installer
-    COMMAND "${CMAKE_COMMAND}" --install "${CMAKE_BINARY_DIR}" ${INSTALL_CONFIG_ARG}
-    COMMAND "${INNOSETUP_COMPILER}" "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss"
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
-    COMMENT "Generate TravelManager Setup.exe"
-)
+if(TARGET TravelManager)
+    add_custom_target(installer
+        DEPENDS TravelManager
+        COMMAND "${CMAKE_COMMAND}" --install "${CMAKE_BINARY_DIR}" ${INSTALL_CONFIG_ARG}
+        COMMAND "${INNOSETUP_COMPILER}" "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
+        COMMENT "Generate TravelManager Setup.exe"
+    )
+endif()
 
 # CPack configuration using Inno Setup
 set(CPACK_PACKAGE_NAME "TravelManager")
