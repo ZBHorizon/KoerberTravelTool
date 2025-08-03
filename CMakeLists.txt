@@ -58,3 +58,8 @@ add_custom_target(installer
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
     COMMENT "Generate TravelManager Setup.exe"
 )
+
+# CPack configuration
+set(CPACK_PACKAGE_NAME "TravelManager")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+include(CPack)
