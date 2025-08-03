@@ -66,42 +66,43 @@
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "C_Cpp.codeAnalysis.clangTidy.config": "${workspaceFolder}/.clang-tidy",
     "C_Cpp.codeAnalysis.runAutomatically": true,
-    "cmake.options.statusBarVisibility": "visible",
+    // ----- Cmake ----------------------------------------------------------------------------
+    "cmake.options.statusBarVisibility": "compact",
     "cmake.options.advanced": {
       "folder": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "hidden"
       },
       "configure": {
-        "projectStatusVisibility": "visible"
+        "projectStatusVisibility": "visible",
       },
       "configurePreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "hidden"
       },
       "kit": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "hidden"
       },
       "variant": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "compact"
       },
       "build": {
-        "statusBarVisibility": "visible",
+        "statusBarVisibility": "hidden",
         "inheritDefault": "visible",
         "projectStatusVisibility": "visible"
       },
       "buildPreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "compact"
       },
       "buildTarget": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "compact"
       },
       "ctest": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "hidden"
       },
       "testPreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "hidden"
       },
       "launchTarget": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "hidden"
       },
       "debug": {
         "statusBarVisibility": "visible"
@@ -110,13 +111,16 @@
         "statusBarVisibility": "visible"
       },
       "workflow": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "icon"
       },
       "workflowPreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "compact"
       },
       "packagePreset": {
-        "statusBarVisibility": "visible"
+        "statusBarVisibility": "compact"
+      },
+      "cpack": {
+        "statusBarVisibility": "icon"
       }
     }
   }
