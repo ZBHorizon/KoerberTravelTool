@@ -113,6 +113,13 @@
         "configurePreset": "windows-vs"
       }
     ],
+  "packagePresets": [
+    {
+      "name": "windows-ninja-installer",
+      "displayName": "Inno Setup",
+      "configurePreset": "windows-ninja"
+    }
+  ],
   "testPresets": [
     {
       "name": "windows-ninja-debug",
