@@ -50,5 +50,16 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "TravelManager Installer")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/installer/cpack_inno_config.cmake")
+include(${CMAKE_SOURCE_DIR}/installer/cpack_inno_config.cmake)
 include(CPack)
+
+if(CMAKE_CONFIGURATION_TYPES)
+    set(CPACK_CONFIG_ARG "-C $<CONFIG>")
+else()
+    set(CPACK_CONFIG_ARG "")
+endif()
+
+add_custom_target(installer
+    COMMAND "${CMAKE_CPACK_COMMAND}" ${CPACK_CONFIG_ARG}
+    COMMENT "Generate TravelManager Setup.exe"
+)
