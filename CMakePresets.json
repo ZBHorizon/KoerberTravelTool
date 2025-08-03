@@ -96,7 +96,9 @@
       "name": "windows-ninja-installer",
       "displayName": "Installer",
       "inherits": "windows-ninja-release",
-      "targets": [ "installer" ]
+      "targets": [
+        "installer"
+      ]
     },
     {
       "name": "windows-vs-debug",
@@ -139,7 +141,7 @@
   ],
   "packagePresets": [
     {
-      "name": "windows-ninja-installer",
+      "name": "Inno Setup",
       "displayName": "Installer",
       "configurePreset": "windows-ninja",
       "description": "Creates TravelManagerSetup.exe"
@@ -147,13 +149,25 @@
   ],
   "workflowPresets": [
     {
-      "name": "windows-ninja-installer",
+      "name": "Inno Setup",
       "displayName": "Build and Package",
       "steps": [
-        { "type": "configure", "name": "windows-ninja" },
-        { "type": "build", "name": "windows-ninja-release" },
-        { "type": "build", "name": "windows-ninja-installer" },
-        { "type": "package", "name": "windows-ninja-installer" }
+        {
+          "type": "configure",
+          "name": "windows-ninja"
+        },
+        {
+          "type": "build",
+          "name": "windows-ninja-release"
+        },
+        {
+          "type": "build",
+          "name": "windows-ninja-installer"
+        },
+        {
+          "type": "package",
+          "name": "windows-ninja-installer"
+        }
       ]
     }
   ]
