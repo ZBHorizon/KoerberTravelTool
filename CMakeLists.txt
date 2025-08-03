@@ -12,9 +12,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Installation prefix
-if(NOT CMAKE_INSTALL_PREFIX)
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "Installation Directory" FORCE)
+# Installation prefix inside the build tree
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation Directory" FORCE)
 endif()
  
 include(GNUInstallDirs)
@@ -56,7 +56,8 @@ if(TARGET TravelManager)
     add_custom_target(installer
         DEPENDS TravelManager
         COMMAND "${CMAKE_COMMAND}" --install "${CMAKE_BINARY_DIR}" ${INSTALL_CONFIG_ARG}
-        COMMAND "${INNOSETUP_COMPILER}" "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss"
+        COMMAND "${CMAKE_COMMAND}" -E make_directory "${CMAKE_BINARY_DIR}/installer/Output"
+        COMMAND "${INNOSETUP_COMPILER}" "/O${CMAKE_BINARY_DIR}/installer/Output" "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
         COMMENT "Generate TravelManager Setup.exe"
     )
@@ -68,4 +69,5 @@ set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_GENERATOR "INNOSETUP")
 set(CPACK_INNOSETUP_SETUP_SCRIPT "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss")
 set(CPACK_INNOSETUP_COMPILER "${INNOSETUP_COMPILER}")
+set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_BINARY_DIR}/installer/Output")
 include(CPack)
