@@ -67,7 +67,6 @@ if(TARGET TravelManager)
         COMMAND "${CMAKE_COMMAND}" --install "${CMAKE_BINARY_DIR}" ${INSTALL_CONFIG_ARG}
         COMMAND "${CMAKE_COMMAND}" -E make_directory "${CMAKE_BINARY_DIR}/installer/Output"
         COMMAND "${INNOSETUP_COMPILER}" "/O${CMAKE_BINARY_DIR}/installer/Output" "${CMAKE_BINARY_DIR}/installer/inno_installer.iss"
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
         COMMENT "Generate TravelManager Setup.exe"
     )
 endif()
