@@ -46,9 +46,9 @@
       }
     },
     {
-        "name": "windows-vs",
-        "displayName": "Windows Visual Studio",
-        "description": "Build using Visual Studio 17 2022",
+      "name": "windows-vs",
+      "displayName": "Windows Visual Studio",
+      "description": "Build using Visual Studio 17 2022",
       "generator": "Visual Studio 17 2022",
       "condition": {
         "type": "equals",
@@ -70,36 +70,22 @@
         "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
         "CMAKE_CXX_STANDARD": "17"
       },
-        "vendor": {
-          "microsoft.com/VisualStudioSettings/CMake/1.0": {
-            "hostOS": [
-              "Windows"
-            ]
-          }
-        }
-      },
-      {
-        "name": "linux-ninja",
-        "displayName": "Linux Ninja",
-        "description": "Build for Linux using Ninja",
-        "condition": {
-          "type": "equals",
-          "lhs": "${hostSystemName}",
-          "rhs": "Linux"
-        },
-        "inherits": "ninja-multi",
-        "cacheVariables": {
-          "BUILD_TESTS": "OFF"
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
         }
       }
-    ],
-    "buildPresets": [
-      {
-        "name": "windows-ninja-debug",
-        "displayName": "Debug",
-        "configuration": "Debug",
-        "configurePreset": "windows-ninja"
-      },
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-ninja-debug",
+      "displayName": "Debug",
+      "configuration": "Debug",
+      "configurePreset": "windows-ninja"
+    },
       {
         "name": "windows-ninja-release",
         "displayName": "Release",
@@ -125,20 +111,8 @@
         "displayName": "Release",
         "configuration": "Release",
         "configurePreset": "windows-vs"
-      },
-      {
-        "name": "linux-ninja-debug",
-        "displayName": "Debug",
-        "configuration": "Debug",
-        "configurePreset": "linux-ninja"
-      },
-      {
-        "name": "linux-ninja-release",
-        "displayName": "Release",
-        "configuration": "Release",
-        "configurePreset": "linux-ninja"
       }
-    ],
+  ],
   "testPresets": [
     {
       "name": "windows-ninja-debug",
@@ -158,44 +132,40 @@
       "configurePreset": "windows-vs",
       "configuration": "Debug"
     },
-      {
-        "name": "windows-vs-release",
-        "displayName": "All Release",
-        "configurePreset": "windows-vs",
-        "configuration": "Release"
-      }
-    ],
-    "packagePresets": [
-      {
-        "name": "linux-ninja-package",
-        "displayName": "Package",
-        "configurePreset": "linux-ninja",
-        "generators": [
-          "TGZ"
-        ],
-        "configurations": [
-          "Release"
-        ]
-      }
-    ],
-    "workflowPresets": [
-      {
-        "name": "cpack",
-        "displayName": "Build and Package",
-        "steps": [
-          {
-            "type": "configure",
-            "name": "linux-ninja"
-          },
-          {
-            "type": "build",
-            "name": "linux-ninja-release"
-          },
-          {
-            "type": "package",
-            "name": "linux-ninja-package"
-          }
-        ]
-      }
-    ]
+    {
+      "name": "windows-vs-release",
+      "displayName": "All Release",
+      "configurePreset": "windows-vs",
+      "configuration": "Release"
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "windows-ninja-package",
+      "displayName": "Inno Setup",
+      "configurePreset": "windows-ninja",
+      "generators": ["INNOSETUP"],
+      "configurations": ["Release"]
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "cpack",
+      "displayName": "Build and Package",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-ninja"
+        },
+        {
+          "type": "build",
+          "name": "windows-ninja-release"
+        },
+        {
+          "type": "package",
+          "name": "windows-ninja-package"
+        }
+      ]
+    }
+  ]
 }

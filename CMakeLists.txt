@@ -59,7 +59,10 @@ add_custom_target(installer
     COMMENT "Generate TravelManager Setup.exe"
 )
 
-# CPack configuration
+# CPack configuration using Inno Setup
 set(CPACK_PACKAGE_NAME "TravelManager")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_GENERATOR "INNOSETUP")
+set(CPACK_INNOSETUP_SETUP_SCRIPT "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss")
+set(CPACK_INNOSETUP_COMPILER "${INNOSETUP_COMPILER}")
 include(CPack)
