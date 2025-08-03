@@ -46,6 +46,15 @@ endif()
 # Inno Setup installer
 include(${CMAKE_SOURCE_DIR}/installer/iscc_config.cmake)
 
+# Configure Inno Setup script with absolute paths
+file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/install" INSTALL_ROOT)
+file(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/resources" RESOURCE_DIR)
+configure_file(
+    ${CMAKE_SOURCE_DIR}/installer/inno_installer.iss.in
+    ${CMAKE_BINARY_DIR}/installer/inno_installer.iss
+    @ONLY
+)
+
 if(CMAKE_CONFIGURATION_TYPES)
     set(INSTALL_CONFIG_ARG "--config $<CONFIG>")
 else()
@@ -57,7 +66,7 @@ if(TARGET TravelManager)
         DEPENDS TravelManager
         COMMAND "${CMAKE_COMMAND}" --install "${CMAKE_BINARY_DIR}" ${INSTALL_CONFIG_ARG}
         COMMAND "${CMAKE_COMMAND}" -E make_directory "${CMAKE_BINARY_DIR}/installer/Output"
-        COMMAND "${INNOSETUP_COMPILER}" "/O${CMAKE_BINARY_DIR}/installer/Output" "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss"
+        COMMAND "${INNOSETUP_COMPILER}" "/O${CMAKE_BINARY_DIR}/installer/Output" "${CMAKE_BINARY_DIR}/installer/inno_installer.iss"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
         COMMENT "Generate TravelManager Setup.exe"
     )
@@ -67,7 +76,7 @@ endif()
 set(CPACK_PACKAGE_NAME "TravelManager")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_GENERATOR "INNOSETUP")
-set(CPACK_INNOSETUP_SETUP_SCRIPT "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss")
+set(CPACK_INNOSETUP_SETUP_SCRIPT "${CMAKE_BINARY_DIR}/installer/inno_installer.iss")
 set(CPACK_INNOSETUP_COMPILER "${INNOSETUP_COMPILER}")
 set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_BINARY_DIR}/installer/Output")
 include(CPack)

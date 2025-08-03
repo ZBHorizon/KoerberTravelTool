@@ -11,6 +11,8 @@
 #define MyAppName     "TravelManager"
 #define MyAppExeName  "TravelManager.exe"
 #define MyAppVersion  "0.1"
+#define InstallSource "@INSTALL_ROOT@"
+#define ResourceDir  "@RESOURCE_DIR@"
 
 ; ---------------------------------------------------------------------------
 ;  SETUP
@@ -21,7 +23,7 @@ AppVersion                   = {#MyAppVersion}
 DefaultDirName               = {code:GetInstallDir}
 DefaultGroupName             = {#MyAppName}
 OutputBaseFilename           = TravelManagerSetup
-SetupIconFile                = ..\resources\Travel.ico
+SetupIconFile                = {#ResourceDir}\Travel.ico
 Compression                  = lzma
 SolidCompression             = yes
 
@@ -34,7 +36,7 @@ PrivilegesRequiredOverridesAllowed = dialog
 ; ---------------------------------------------------------------------------
 [Files]
 ; Grab installed files from the build tree
-Source: "..\build\install\*"; DestDir: "{app}"; Flags: recursesubdirs
+Source: "{#InstallSource}\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch TravelManager"; Flags: nowait postinstall skipifsilent
