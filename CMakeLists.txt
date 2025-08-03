@@ -43,23 +43,18 @@ if(BUILD_DOCUMENTATION AND DOXYGEN_FOUND)
     )
 endif()
  
-# CPack packaging with Inno Setup
-set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-set(CPACK_PACKAGE_VENDOR "KoerberTravelTool")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "TravelManager Installer")
-set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-include(${CMAKE_SOURCE_DIR}/installer/cpack_inno_config.cmake)
-include(CPack)
+# Inno Setup installer
+include(${CMAKE_SOURCE_DIR}/installer/iscc_config.cmake)
 
 if(CMAKE_CONFIGURATION_TYPES)
-    set(CPACK_CONFIG_ARG "-C $<CONFIG>")
+    set(INSTALL_CONFIG_ARG "--config $<CONFIG>")
 else()
-    set(CPACK_CONFIG_ARG "")
+    set(INSTALL_CONFIG_ARG "")
 endif()
 
 add_custom_target(installer
-    COMMAND "${CMAKE_CPACK_COMMAND}" ${CPACK_CONFIG_ARG}
+    COMMAND "${CMAKE_COMMAND}" --install "${CMAKE_BINARY_DIR}" ${INSTALL_CONFIG_ARG}
+    COMMAND "${INNOSETUP_COMPILER}" "${CMAKE_SOURCE_DIR}/installer/inno_installer.iss"
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/installer"
     COMMENT "Generate TravelManager Setup.exe"
 )
