@@ -86,32 +86,32 @@
       "configuration": "Debug",
       "configurePreset": "windows-ninja"
     },
-    {
-      "name": "windows-ninja-release",
-      "displayName": "Release",
-      "configuration": "Release",
-      "configurePreset": "windows-ninja"
-    },
-    {
-      "name": "windows-ninja-installer",
-      "displayName": "Installer",
-      "inherits": "windows-ninja-release",
-      "targets": [
-        "installer"
-      ]
-    },
-    {
-      "name": "windows-vs-debug",
-      "displayName": "Debug",
-      "configuration": "Debug",
-      "configurePreset": "windows-vs"
-    },
-    {
-      "name": "windows-vs-release",
-      "displayName": "Release",
-      "configuration": "Release",
-      "configurePreset": "windows-vs"
-    }
+      {
+        "name": "windows-ninja-release",
+        "displayName": "Release",
+        "configuration": "Release",
+        "configurePreset": "windows-ninja"
+      },
+      {
+        "name": "windows-ninja-installer",
+        "displayName": "Installer",
+        "inherits": "windows-ninja-release",
+        "targets": [
+          "installer"
+        ]
+      },
+      {
+        "name": "windows-vs-debug",
+        "displayName": "Debug",
+        "configuration": "Debug",
+        "configurePreset": "windows-vs"
+      },
+      {
+        "name": "windows-vs-release",
+        "displayName": "Release",
+        "configuration": "Release",
+        "configurePreset": "windows-vs"
+      }
   ],
   "testPresets": [
     {
@@ -139,14 +139,6 @@
       "configuration": "Release"
     }
   ],
-  "packagePresets": [
-    {
-      "name": "Inno Setup",
-      "displayName": "Installer",
-      "configurePreset": "windows-ninja",
-      "description": "Creates TravelManagerSetup.exe"
-    }
-  ],
   "workflowPresets": [
     {
       "name": "Inno Setup",
@@ -162,10 +154,6 @@
         },
         {
           "type": "build",
-          "name": "windows-ninja-installer"
-        },
-        {
-          "type": "package",
           "name": "windows-ninja-installer"
         }
       ]
