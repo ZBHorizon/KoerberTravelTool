@@ -1,8 +1,8 @@
 ; ============================================================
-;  TravelManager – single-EXE installer
+;  TravelManager  single-EXE installer
 ;  ------------------------------------------------------------
 ;   Per-user install by default (checkbox lets user elevate)
-;   User can pick / create a “Travels” folder
+;   User can pick / create a Travels  folder
 ;   Adds mandatory Explorer context-menu items   (New / Edit)
 ;   Creates Desktop.ini with custom icon + tooltip
 ;   Uninstaller removes registry keys & Desktop.ini
