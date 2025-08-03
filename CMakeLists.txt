@@ -73,7 +73,7 @@ if(TARGET TravelManager)
 endif()
 
 # CPack configuration using Inno Setup
-set(CPACK_PACKAGE_NAME "TravelManager")
+set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_GENERATOR "INNOSETUP")
 set(CPACK_INNOSETUP_SETUP_SCRIPT "${CMAKE_BINARY_DIR}/installer/inno_installer.iss")
