@@ -33,7 +33,8 @@ PrivilegesRequiredOverridesAllowed = dialog
 ;  FILES & RUN
 ; ---------------------------------------------------------------------------
 [Files]
-Source: "..\install\*"; DestDir: "{app}"; Flags: recursesubdirs
+; Grab installed files from the build tree
+Source: "..\build\install\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch TravelManager"; Flags: nowait postinstall skipifsilent
