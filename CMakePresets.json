@@ -48,67 +48,16 @@
           ]
         }
       }
-    },
-    {
-      "name": "windows-vs",
-      "displayName": "Windows Visual Studio",
-      "description": "Build using Visual Studio 17 2022",
-      "generator": "Visual Studio 17 2022",
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
-      },
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "toolset": {
-        "value": "v143,host=x64",
-        "strategy": "external"
-      },
-      "binaryDir": "${sourceDir}/build",
-      "installDir": "${sourceDir}/build/install",
-      "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
-        "CMAKE_CXX_STANDARD": "17",
-        "BUILD_TESTS": "OFF"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Windows"
-          ]
-        }
-      }
     }
   ],
   "buildPresets": [
     {
-      "name": "windows-ninja-debug",
-      "displayName": "Debug",
-      "configuration": "Debug",
-      "configurePreset": "windows-ninja"
-    },
-      {
-        "name": "windows-ninja-release",
-        "displayName": "Release",
-        "configuration": "Release",
-        "configurePreset": "windows-ninja"
-      },
-      {
-        "name": "windows-vs-debug",
-        "displayName": "Debug",
-        "configuration": "Debug",
-        "configurePreset": "windows-vs"
-      },
-      {
-        "name": "windows-vs-release",
-        "displayName": "Release",
-        "configuration": "Release",
-        "configurePreset": "windows-vs"
-      }
+      "name": "windows-ninja-release",
+      "displayName": "Release",
+      "configuration": "Release",
+      "configurePreset": "windows-ninja",
+      "targets": ["installer"]
+    }
   ],
   "packagePresets": [
     {
