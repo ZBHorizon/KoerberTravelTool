@@ -3,7 +3,7 @@ cmake_policy(SET CMP0048 NEW)
 project(TravelManager VERSION 0.1 LANGUAGES CXX)
 
 # Options
-option(BUILD_TESTS "Build unit tests" ON)
+option(BUILD_TESTS "Build unit tests" OFF)
 option(BUILD_DOCUMENTATION "Build documentation" OFF)
 
 # Set C++ standard

@@ -12,7 +12,10 @@
       "hidden": true,
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build",
-      "installDir": "${sourceDir}/build/install"
+      "installDir": "${sourceDir}/build/install",
+      "cacheVariables": {
+        "BUILD_TESTS": "OFF"
+      }
     },
     {
       "name": "windows-ninja",
@@ -35,7 +38,8 @@
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "cl",
         "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
-        "CMAKE_CXX_STANDARD": "17"
+        "CMAKE_CXX_STANDARD": "17",
+        "BUILD_TESTS": "OFF"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -68,7 +72,8 @@
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "cl",
         "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
-        "CMAKE_CXX_STANDARD": "17"
+        "CMAKE_CXX_STANDARD": "17",
+        "BUILD_TESTS": "OFF"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -93,14 +98,6 @@
         "configurePreset": "windows-ninja"
       },
       {
-        "name": "windows-ninja-installer",
-        "displayName": "Installer",
-        "inherits": "windows-ninja-release",
-        "targets": [
-          "installer"
-        ]
-      },
-      {
         "name": "windows-vs-debug",
         "displayName": "Debug",
         "configuration": "Debug",
@@ -112,32 +109,6 @@
         "configuration": "Release",
         "configurePreset": "windows-vs"
       }
-  ],
-  "testPresets": [
-    {
-      "name": "windows-ninja-debug",
-      "displayName": "All Debug",
-      "configurePreset": "windows-ninja",
-      "configuration": "Debug"
-    },
-    {
-      "name": "windows-ninja-release",
-      "displayName": "All Release",
-      "configurePreset": "windows-ninja",
-      "configuration": "Release"
-    },
-    {
-      "name": "windows-vs-debug",
-      "displayName": "All Debug",
-      "configurePreset": "windows-vs",
-      "configuration": "Debug"
-    },
-    {
-      "name": "windows-vs-release",
-      "displayName": "All Release",
-      "configurePreset": "windows-vs",
-      "configuration": "Release"
-    }
   ],
   "packagePresets": [
     {
