@@ -12,7 +12,10 @@
       "hidden": true,
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build",
-      "installDir": "${sourceDir}/install"
+      "installDir": "${sourceDir}/build/install",
+      "cacheVariables": {
+        "BUILD_TESTS": "OFF"
+      }
     },
     {
       "name": "windows-ninja",
@@ -35,40 +38,8 @@
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "cl",
         "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
-        "CMAKE_CXX_STANDARD": "17"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Windows"
-          ]
-        }
-      }
-    },
-    {
-      "name": "windows-vs",
-      "displayName": "Windows Visual Studio",
-      "description": "Build using Visual Studio 17 2022",
-      "generator": "Visual Studio 17 2022",
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
-      },
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "toolset": {
-        "value": "v143,host=x64",
-        "strategy": "external"
-      },
-      "binaryDir": "${sourceDir}/build",
-      "installDir": "${sourceDir}/install",
-      "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_CXX_FLAGS": "/MP /EHsc /bigobj",
-        "CMAKE_CXX_STANDARD": "17"
+        "CMAKE_CXX_STANDARD": "17",
+        "BUILD_TESTS": "OFF"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -81,67 +52,25 @@
   ],
   "buildPresets": [
     {
-      "name": "windows-ninja-debug",
-      "displayName": "Debug",
-      "configuration": "Debug",
-      "configurePreset": "windows-ninja"
-    },
-      {
-        "name": "windows-ninja-release",
-        "displayName": "Release",
-        "configuration": "Release",
-        "configurePreset": "windows-ninja"
-      },
-      {
-        "name": "windows-ninja-installer",
-        "displayName": "Installer",
-        "inherits": "windows-ninja-release",
-        "targets": [
-          "installer"
-        ]
-      },
-      {
-        "name": "windows-vs-debug",
-        "displayName": "Debug",
-        "configuration": "Debug",
-        "configurePreset": "windows-vs"
-      },
-      {
-        "name": "windows-vs-release",
-        "displayName": "Release",
-        "configuration": "Release",
-        "configurePreset": "windows-vs"
-      }
-  ],
-  "testPresets": [
-    {
-      "name": "windows-ninja-debug",
-      "displayName": "All Debug",
-      "configurePreset": "windows-ninja",
-      "configuration": "Debug"
-    },
-    {
       "name": "windows-ninja-release",
-      "displayName": "All Release",
+      "displayName": "Release",
+      "configuration": "Release",
       "configurePreset": "windows-ninja",
-      "configuration": "Release"
-    },
+      "targets": ["installer"]
+    }
+  ],
+  "packagePresets": [
     {
-      "name": "windows-vs-debug",
-      "displayName": "All Debug",
-      "configurePreset": "windows-vs",
-      "configuration": "Debug"
-    },
-    {
-      "name": "windows-vs-release",
-      "displayName": "All Release",
-      "configurePreset": "windows-vs",
-      "configuration": "Release"
+      "name": "windows-ninja-package",
+      "displayName": "Inno Setup",
+      "configurePreset": "windows-ninja",
+      "generators": ["INNOSETUP"],
+      "configurations": ["Release"]
     }
   ],
   "workflowPresets": [
     {
-      "name": "Inno Setup",
+      "name": "cpack",
       "displayName": "Build and Package",
       "steps": [
         {
@@ -153,8 +82,8 @@
           "name": "windows-ninja-release"
         },
         {
-          "type": "build",
-          "name": "windows-ninja-installer"
+          "type": "package",
+          "name": "windows-ninja-package"
         }
       ]
     }

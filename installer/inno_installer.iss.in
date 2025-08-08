@@ -8,9 +8,11 @@
 ;   Uninstaller removes registry keys & Desktop.ini
 ; ============================================================
 
-#define MyAppName     "TravelManager"
-#define MyAppExeName  "TravelManager.exe"
-#define MyAppVersion  "0.1"
+#define MyAppName     "@PROJECT_NAME@"
+#define MyAppExeName  "@PROJECT_NAME@.exe"
+#define MyAppVersion  "@PROJECT_VERSION@"
+#define InstallSource "@INSTALL_ROOT@"
+#define ResourceDir  "@RESOURCE_DIR@"
 
 ; ---------------------------------------------------------------------------
 ;  SETUP
@@ -20,8 +22,8 @@ AppName                      = {#MyAppName}
 AppVersion                   = {#MyAppVersion}
 DefaultDirName               = {code:GetInstallDir}
 DefaultGroupName             = {#MyAppName}
-OutputBaseFilename           = TravelManagerSetup
-SetupIconFile                = ..\resources\Travel.ico
+OutputBaseFilename           = @PROJECT_NAME@Setup
+SetupIconFile                = {#ResourceDir}\Travel.ico
 Compression                  = lzma
 SolidCompression             = yes
 
@@ -33,7 +35,8 @@ PrivilegesRequiredOverridesAllowed = dialog
 ;  FILES & RUN
 ; ---------------------------------------------------------------------------
 [Files]
-Source: "..\install\*"; DestDir: "{app}"; Flags: recursesubdirs
+; Grab installed files from the build tree
+Source: "{#InstallSource}\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch TravelManager"; Flags: nowait postinstall skipifsilent
